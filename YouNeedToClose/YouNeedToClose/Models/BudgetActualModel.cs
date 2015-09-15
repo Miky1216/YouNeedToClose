@@ -8,6 +8,8 @@ namespace YouNeedToClose.Models
 {
     public class BudgetActualModel
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id;
         public int BudgetActual { get; set; }
         public double Budget { get; set; }
         public double Actual { get; set; }
