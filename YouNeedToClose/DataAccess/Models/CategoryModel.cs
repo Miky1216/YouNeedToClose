@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace YouNeedToClose.Models
+namespace DataAccess.Models
 {
-    public class ProjectedGoalModel
+    public class CategoryModel
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public double ExpectedAmountToEarn { get; set; }
+        public string NameOfCategory { get; set; }
     }
 }
