@@ -10,7 +10,6 @@ namespace YouNeedToClose.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id;
-        public int BudgetActual { get; set; }
         public double Budget { get; set; }
         public double Actual { get; set; }
         [NotMapped]
