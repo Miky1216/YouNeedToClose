@@ -1,0 +1,9 @@
+diff a/YouNeedToClose/YouNeedToClose/YouNeedToClose.csproj b/YouNeedToClose/YouNeedToClose/YouNeedToClose.csproj	(rejected hunks)
+@@ -171,6 +171,7 @@
+     <Compile Include="Models\IdentityModels.cs" />
+     <Compile Include="Models\ManageViewModels.cs" />
+     <Compile Include="Models\ProjectedGoalModel.cs" />
++    <Compile Include="Models\TermModel.cs" />
+     <Compile Include="Properties\AssemblyInfo.cs" />
+     <Compile Include="Startup.cs" />
+   </ItemGroup>
