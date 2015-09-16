@@ -1,0 +1,64 @@
+﻿@{
+    //Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>You Need To Close</title>
+<style>
+    table, th, td{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td{
+        padding: 5px;
+        text-align: left;
+    }
+    #expectedamount{
+        font-weight:bold;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div id="headercontent" class="row">
+        <div id="monthyear" class="col-md-4 text-center">
+            <h2>September</h2>
+            <h4>2015</h4>
+        </div>
+        <div id="expectedamount" class="col-md-8">
+            <table style="width:100%">
+                <tr>
+                    <th>Amount Expected Monthly:</th>
+                    <td>$50,000</td>
+                </tr>
+                <tr>
+                    <th>Over/Under Budget:</th>
+                    <td bgcolor="red">Under $4,000</td>
+                </tr>
+                <tr>
+                    <th>Actual Amount Earned:</th>
+                    <td>$46,000</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="table" class="row">
+        <table style="width:100%">
+            <tr>
+                <th>Category</th>
+                <th>Budgeted</th>
+                <th>Actual</th>
+                <th>Difference</th>
+            </tr>
+        </table>
+    </div>
+    <div id="closed" class="row">
+    </div>
+</div>
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>
