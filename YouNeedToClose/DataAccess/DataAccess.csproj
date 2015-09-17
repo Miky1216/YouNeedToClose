@@ -50,6 +50,14 @@
     <Compile Include="Migrations\201509171856340_InitialMigration.Designer.cs">
       <DependentUpon>201509171856340_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509171906596_SeedData.cs" />
+    <Compile Include="Migrations\201509171906596_SeedData.Designer.cs">
+      <DependentUpon>201509171906596_SeedData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509171926163_SeedDataAccess1.cs" />
+    <Compile Include="Migrations\201509171926163_SeedDataAccess1.Designer.cs">
+      <DependentUpon>201509171926163_SeedDataAccess1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BudgetActualModel.cs" />
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Class1.cs" />
@@ -67,6 +75,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201509171856340_InitialMigration.resx">
       <DependentUpon>201509171856340_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509171906596_SeedData.resx">
+      <DependentUpon>201509171906596_SeedData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509171926163_SeedDataAccess1.resx">
+      <DependentUpon>201509171926163_SeedDataAccess1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
