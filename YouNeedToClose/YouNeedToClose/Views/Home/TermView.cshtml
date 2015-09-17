@@ -1,4 +1,6 @@
-﻿@{
+﻿@model DataAccess.Models.TermModel
+
+@{
     //Layout = null;
 }
 
@@ -20,6 +22,13 @@
     #expectedamount{
         font-weight:bold;
     }
+    #category{
+        font-weight:bold;
+        background-color:yellow;
+    }
+    #customer{
+        text-indent: 50px;
+    }
 </style>
 </head>
 <body>
@@ -31,29 +40,78 @@
         </div>
         <div id="expectedamount" class="col-md-8">
             <table style="width:100%">
+                    <tr>
+                        <th>Amount Expected Monthly:</th>
+                        <td>$50,000</td>
+                    </tr>
                 <tr>
-                    <th>Amount Expected Monthly:</th>
-                    <td>$50,000</td>
+                    <th>Over/Under Budget</th>
+                    <th>Actual Amount Earned For Month</th>
                 </tr>
-                <tr>
-                    <th>Over/Under Budget:</th>
-                    <td bgcolor="red">Under $4,000</td>
-                </tr>
-                <tr>
-                    <th>Actual Amount Earned:</th>
-                    <td>$46,000</td>
-                </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.BudgetActual.Budget)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.BudgetActual.Actual)
+                        </td>
+                    </tr>       
             </table>
         </div>
     </div>
     <div id="table" class="row">
         <table style="width:100%">
             <tr>
-                <th>Category</th>
+                <th>Categories</th>
                 <th>Budgeted</th>
                 <th>Actual</th>
                 <th>Difference</th>
+                <th>Options</th>
             </tr>
+            @foreach (var item in Model.Categories)
+            {
+                <tr>
+                    <td id="category">
+                        @Html.DisplayFor(modelItem => item.NameOfCategory)
+                    </td>
+                    <td id="category">
+                        @Html.DisplayFor(modelItem => item.BudgetActualCategory.Budget)
+                    </td>
+                    <td id="category">
+                        @Html.DisplayFor(modelItem => item.BudgetActualCategory.Actual)
+                    </td>
+                    <td id="category">
+                        @Html.DisplayFor(modelItem => item.BudgetActualCategory.Difference)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id })  |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+                foreach (var customer in item.Customers)
+                {
+                    <tr>
+                        <td id="customer">
+                            @Html.DisplayFor(modelItem => customer.NameOfCompany)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => customer.BudgetActualCustomer.Budget)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => customer.BudgetActualCustomer.Actual)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => customer.BudgetActualCustomer.Difference)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Id })  |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+            }
         </table>
     </div>
     <div id="closed" class="row">

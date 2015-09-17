@@ -13,5 +13,8 @@ namespace DataAccess.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string NameOfCategory { get; set; }
+        public virtual List<CustomerModel> Customers { get; set; }
+        [NotMapped]
+        public virtual BudgetActualModel BudgetActualCategory { get; set; }
     }
 }

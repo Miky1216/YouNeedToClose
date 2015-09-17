@@ -13,9 +13,7 @@ namespace DataAccess.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
         public virtual List<CategoryModel> Categories { get; set; }
-        public virtual List<CustomerModel> Customers { get; set; }
         [NotMapped]
         public virtual BudgetActualModel BudgetActual { get; set; }
         public virtual ProjectedGoalModel ProjectedGoal { get; set; }

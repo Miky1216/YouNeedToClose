@@ -13,5 +13,6 @@ namespace DataAccess.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string NameOfCompany { get; set; }
+        public virtual BudgetActualModel BudgetActualCustomer { get; set; }
     }
 }
