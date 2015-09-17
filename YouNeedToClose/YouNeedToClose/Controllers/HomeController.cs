@@ -134,7 +134,8 @@ namespace YouNeedToClose.Controllers
                term.PrevId = latestTerm.Id;
                term.StartDate = latestTerm.StartDate.AddMonths(1);
                term.ProjectedGoal = latestTerm.ProjectedGoal;
-               
+               term.Categories = new List<CategoryModel>();
+
                foreach(CategoryModel catm in latestTerm.Categories)//perform deep copy
                {
                    CategoryModel new_catm = new CategoryModel { NameOfCategory = catm.NameOfCategory,
@@ -150,6 +151,7 @@ namespace YouNeedToClose.Controllers
                        };
                        new_catm.Customers.Add(new_custm);
                    }
+                   term.Categories.Add(new_catm);
                }
 
 
