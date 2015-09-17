@@ -9,10 +9,10 @@ namespace YouNeedToClose.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            
-            return TermDisplay();
+
+            return TermDisplay(id);
         }
         public ActionResult Edit(int? id)
         {
@@ -43,9 +43,27 @@ namespace YouNeedToClose.Controllers
 
             return View();
         }
-        public ActionResult TermDisplay()
+        public ActionResult TermDisplay(int? id)
         {
-            TermModel term = new TermModel();
+            TermModel term;
+            if (id == null)
+            {
+                //determine which term is the current date
+
+
+            }
+            else
+            {
+                //open term from database by id
+
+                //if term does not exist
+                //copy categories and budgetted from previous term from database
+
+            }
+
+
+            #region temporary sample data
+            term = new TermModel();
             var startDate = new DateTime(2015, 9, 1);
             var category = new List<CategoryModel>
             
@@ -109,33 +127,38 @@ namespace YouNeedToClose.Controllers
                 Actual = 0,
                 Difference = 0
             };
-        foreach(CategoryModel termCategory in term.Categories)
-        {
-            termCategory.BudgetActualCategory = new BudgetActualModel
+
+            #endregion
+
+            foreach (CategoryModel termCategory in term.Categories)
             {
-                Budget = 0,
-                Actual = 0,
-                Difference = 0
-            };
-            foreach (CustomerModel termCustomer in termCategory.Customers)
-            {
-                termCategory.BudgetActualCategory.Budget += termCustomer.BudgetActualCustomer.Budget;
-                termCategory.BudgetActualCategory.Actual += termCustomer.BudgetActualCustomer.Actual;
-                termCategory.BudgetActualCategory.Difference += termCustomer.BudgetActualCustomer.Difference;
+                termCategory.BudgetActualCategory = new BudgetActualModel
+                {
+                    Budget = 0,
+                    Actual = 0,
+                    Difference = 0
+                };
+                foreach (CustomerModel termCustomer in termCategory.Customers)
+                {
+                    termCategory.BudgetActualCategory.Budget += termCustomer.BudgetActualCustomer.Budget;
+                    termCategory.BudgetActualCategory.Actual += termCustomer.BudgetActualCustomer.Actual;
+                    termCategory.BudgetActualCategory.Difference += termCustomer.BudgetActualCustomer.Difference;
+                }
+                term.BudgetActual.Budget += termCategory.BudgetActualCategory.Budget;
+                term.BudgetActual.Actual += termCategory.BudgetActualCategory.Actual;
+                term.BudgetActual.Difference += termCategory.BudgetActualCategory.Difference;
             }
-            term.BudgetActual.Budget += termCategory.BudgetActualCategory.Budget;
-            term.BudgetActual.Actual += termCategory.BudgetActualCategory.Actual;
-            term.BudgetActual.Difference += termCategory.BudgetActualCategory.Difference;
-        }
 
             var budgetActual = new BudgetActualModel
             {
-                Budget=500, Actual=600, Difference=100
+                Budget = 500,
+                Actual = 600,
+                Difference = 100
             };
 
             var projectedMonthlyGoal = new ProjectedGoalModel
             {
-                ExpectedAmountToEarn=50000
+                ExpectedAmountToEarn = 50000
             };
 
             return View("TermView", term);
