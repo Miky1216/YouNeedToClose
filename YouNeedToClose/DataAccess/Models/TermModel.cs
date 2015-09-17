@@ -17,5 +17,7 @@ namespace DataAccess.Models
         [NotMapped]
         public virtual BudgetActualModel BudgetActual { get; set; }
         public virtual ProjectedGoalModel ProjectedGoal { get; set; }
+        public virtual TermModel NextTerm {get;set;}
+        public virtual TermModel PreviousTerm { get; set; }
    }
 }
