@@ -29,7 +29,7 @@ namespace DataAccess.Migrations
             //    );
             //
 
-            #region temporary sample data
+ 
             TermModel term = new TermModel();
             var startDate = new DateTime(2015, 9, 1);
             var category = new List<CategoryModel>
@@ -94,7 +94,7 @@ namespace DataAccess.Migrations
                 Difference = 0
             };
 
-            #endregion
+  
             
             using (var db = new TermContext())
             {
