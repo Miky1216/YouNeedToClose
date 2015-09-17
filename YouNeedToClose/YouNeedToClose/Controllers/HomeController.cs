@@ -69,7 +69,9 @@ namespace YouNeedToClose.Controllers
             if (id == null)
             {
                 //determine which term is the current date
+                //If the date does not exist, create it new and create any up until that point
 
+                
 
             }
             else
@@ -78,6 +80,12 @@ namespace YouNeedToClose.Controllers
                 using (var db = new TermContext())
                 {
                     term = db.Term.Find(id);
+                    if(term==null)
+                    {
+                        term = GetNewTerm();
+                        db.Term.Add(term);
+                        db.SaveChanges();
+                    }
                     term.BudgetActual = new BudgetActualModel
                     {
                         Budget = 0,
@@ -114,6 +122,41 @@ namespace YouNeedToClose.Controllers
                 }
             }
            return View("TermView", term);
+        }
+
+        private TermModel GetNewTerm()
+        {
+            TermModel term = new TermModel();
+            using (var db = new TermContext())
+            {
+               TermModel latestTerm = db.Term.OrderByDescending(e => e.Id).FirstOrDefault();
+               
+               term.PrevId = latestTerm.Id;
+               term.StartDate = latestTerm.StartDate.AddMonths(1);
+               term.ProjectedGoal = latestTerm.ProjectedGoal;
+               
+               foreach(CategoryModel catm in latestTerm.Categories)//perform deep copy
+               {
+                   CategoryModel new_catm = new CategoryModel { NameOfCategory = catm.NameOfCategory,
+                   Customers = new List<CustomerModel>()
+                   };
+
+                   foreach(CustomerModel custm in catm.Customers)
+                   {
+                       CustomerModel new_custm = new CustomerModel
+                       {
+                           NameOfCompany = custm.NameOfCompany,
+                           BudgetActualCustomer = new BudgetActualModel { Budget = 0, Actual = 0, Difference = 0 }
+                       };
+                       new_catm.Customers.Add(new_custm);
+                   }
+               }
+
+
+    
+                
+            }
+            return term;
         }
     }
 }
