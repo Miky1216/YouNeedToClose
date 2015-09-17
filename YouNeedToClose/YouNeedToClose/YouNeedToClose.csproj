@@ -241,6 +241,8 @@
     <Content Include="Views\Home\TermView.cshtml" />
     <Content Include="Views\MonthOverview\Index.cshtml" />
     <Content Include="Views\Home\CreateNewCategoryView.cshtml" />
+    <Content Include="Views\Home\CreateNewCustomerView.cshtml" />
+    <Content Include="Views\Home\EditCustomerView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

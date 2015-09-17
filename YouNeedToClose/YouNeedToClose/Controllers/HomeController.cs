@@ -14,7 +14,17 @@ namespace YouNeedToClose.Controllers
 
             return TermDisplay(id);
         }
-        public ActionResult Edit(int? id)
+        public ActionResult EditCustomer(int? id)
+        {
+            if (id == null)
+            {
+                ;
+            }
+
+
+            return View("EditCustomerView");
+        }
+        public ActionResult EditCategory(int? id)
         {
             if (id == null)
             {
@@ -24,7 +34,7 @@ namespace YouNeedToClose.Controllers
 
             return View();
         }
-        public ActionResult CreateNew(int? id)
+        public ActionResult CreateNewCategory(int? id)
         {
             if (id == null)
             {
@@ -32,6 +42,15 @@ namespace YouNeedToClose.Controllers
             }
 
             return View("CreateNewCategoryView");
+        }
+        public ActionResult CreateNewCustomer(int? id)
+        {
+            if (id == null)
+            {
+                ;
+            }
+
+            return View("CreateNewCustomerView");
         }
         public ActionResult Delete()
         {

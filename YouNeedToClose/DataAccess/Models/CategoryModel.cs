@@ -13,7 +13,7 @@ namespace DataAccess.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [DisplayName("Name of Category")]
+        [DisplayName("Category Name")]
         public string NameOfCategory { get; set; }
         public virtual List<CustomerModel> Customers { get; set; }
         [NotMapped]
