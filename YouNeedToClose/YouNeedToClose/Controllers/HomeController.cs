@@ -14,17 +14,32 @@ namespace YouNeedToClose.Controllers
             
             return TermDisplay();
         }
-
-        public ActionResult About()
+        public ActionResult Edit(int? id)
         {
-            ViewBag.Message = "Your application description page.";
+            if (id == null)
+            {
+                ;
+            }
+
 
             return View();
         }
-
-        public ActionResult Contact()
+        public ActionResult CreateNew(int? id)
         {
-            ViewBag.Message = "Your contact page.";
+            if (id == null)
+            {
+                ;
+            }
+
+            return View("CreateNewCategoryView");
+        }
+        public ActionResult Delete()
+        {
+
+            return View();
+        }
+        public ActionResult Details()
+        {
 
             return View();
         }

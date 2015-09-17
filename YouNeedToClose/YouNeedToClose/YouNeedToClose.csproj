@@ -240,6 +240,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\TermView.cshtml" />
     <Content Include="Views\MonthOverview\Index.cshtml" />
+    <Content Include="Views\Home\CreateNewCategoryView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
