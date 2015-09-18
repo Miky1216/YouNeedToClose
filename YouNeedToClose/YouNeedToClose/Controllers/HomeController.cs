@@ -21,10 +21,6 @@ namespace YouNeedToClose.Controllers
         {
             var editCustomerContext = new TermContext();
 
-            if (id == null)
-            {
-                ;
-            }
             TermModel term = editCustomerContext.Term.Find(id);
             if (term == null)
             {
@@ -51,10 +47,6 @@ namespace YouNeedToClose.Controllers
         {
             var editCategoryContext = new TermContext();
             
-            if (id == null)
-            {
-                ;
-            }
             TermModel term = editCategoryContext.Term.Find(id);
             if (term == null)
             {
@@ -76,29 +68,11 @@ namespace YouNeedToClose.Controllers
             }
             return View("EditCategoryView");
         }
-        /*public ActionResult CreateNewCategory(int? id)
-        {
-            if (id == null)
-            {
-                ;
-            }
-
-            return View("CreateNewCategoryView");
-        }*/
         [HttpGet]
         public ActionResult CreateNewCategory(int? id)
         {
-            var createCategoryContext = new TermContext();
+            TempData["termId"] = id;
 
-            if (id == null)
-            {
-                ;
-            }
-            TermModel term = createCategoryContext.Term.Find(id);
-            if (term == null)
-            {
-                return HttpNotFound();
-            }
             return View("CreateNewCategoryView");
         }
         [HttpPost]
@@ -106,6 +80,10 @@ namespace YouNeedToClose.Controllers
         public ActionResult CreateNewCategory(CategoryModel categoryModel)
         {
             var createCategoryContext = new TermContext();
+            int? termId = (int?)TempData["termId"];
+
+            TermModel term = createCategoryContext.Term.Find(termId);
+            term.Categories.Add(categoryModel);
 
             if (ModelState.IsValid)
             {
@@ -115,13 +93,29 @@ namespace YouNeedToClose.Controllers
             }
             return View("CreateNewCategoryView");
         }
+        [HttpGet]
         public ActionResult CreateNewCustomer(int? id)
         {
-            if (id == null)
-            {
-                ;
-            }
+            TempData["categoryModel"] = id;
 
+            return View("CreateNewCustomerView");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateNewCustomer(CustomerModel customerModel)
+        {
+            var createCustomerContext = new TermContext();
+            int? categoryModel = (int?)TempData["categoryModel"];
+
+            CategoryModel modelOfCategory = createCustomerContext.CategoryModels.Find(categoryModel);
+            modelOfCategory.Customers.Add(customerModel);
+
+            if (ModelState.IsValid)
+            {
+                createCustomerContext.Entry(customerModel).State = EntityState.Added;
+                createCustomerContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
             return View("CreateNewCustomerView");
         }
         public ActionResult Delete()
@@ -225,10 +219,6 @@ namespace YouNeedToClose.Controllers
                    }
                    term.Categories.Add(new_catm);
                }
-
-
-    
-                
             }
             return term;
         }

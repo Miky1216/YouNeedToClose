@@ -11,7 +11,6 @@ namespace DataAccess.Models
         public DbSet<TermModel> Term { get; set; }
 
         public System.Data.Entity.DbSet<DataAccess.Models.CategoryModel> CategoryModels { get; set; }
-
         public System.Data.Entity.DbSet<DataAccess.Models.CustomerModel> CustomerModels { get; set; }
     }
 }

@@ -60,9 +60,7 @@
         </div>
     </div>
     <div class="row">
-        
-            @Html.ActionLink("Create New Category", "CreateNewCategory")
-        
+        @Html.ActionLink("Create New Category", "CreateNewCategory", new { id = Model.Id})
     </div>
     <div id="table" class="row">
         <table style="width:100%">
