@@ -1,7 +1,9 @@
 ﻿using DataAccess.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -21,19 +23,57 @@ namespace YouNeedToClose.Controllers
                 ;
             }
 
-
             return View("EditCustomerView");
         }
+        [HttpGet]
         public ActionResult EditCategory(int? id)
         {
+            var editCategoryContext = new TermContext();
+            
             if (id == null)
             {
                 ;
             }
-
-
-            return View();
+            TermModel term = editCategoryContext.Term.Find(id);
+            if (term == null)
+            {
+                return HttpNotFound();
+            }
+            return View("EditCategoryView");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCategory([Bind(Include="Id, NameOfCategory")] CategoryModel categoryModel)
+        {
+            var editCategoryContext = new TermContext();
+
+            if (ModelState.IsValid)
+            {
+                editCategoryContext.Entry(categoryModel).State = EntityState.Modified;
+                editCategoryContext.SaveChanges();
+                return View("Index");
+            }
+            return View("EditCategoryView");
+        }
+        /*[HttpGet]
+        public ActionResult Edit(int id)
+        {
+            using (var editCategoryContext = new TermContext())
+            {
+                return View(editCategoryContext.Term.Find(id));
+            }
+        }
+        [HttpPost]
+        public ActionResult Edit(int id, TermModel Term)
+        {
+            using (var editCategoryContext = new TermContext())
+            {
+                editCategoryContext.Entry<TermModel>(Term).State =
+                     System.Data.Entity.EntityState.Modified;
+                editCategoryContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+        }*/
         public ActionResult CreateNewCategory(int? id)
         {
             if (id == null)
