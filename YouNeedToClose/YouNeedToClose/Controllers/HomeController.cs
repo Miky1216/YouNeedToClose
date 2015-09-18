@@ -13,16 +13,37 @@ namespace YouNeedToClose.Controllers
     {
         public ActionResult Index(int? id)
         {
-
-            return TermDisplay(id);
+            
+            return TermDisplay(id??1);
         }
+        [HttpGet]
         public ActionResult EditCustomer(int? id)
         {
+            var editCustomerContext = new TermContext();
+
             if (id == null)
             {
                 ;
             }
+            TermModel term = editCustomerContext.Term.Find(id);
+            if (term == null)
+            {
+                return HttpNotFound();
+            }
+            return View("EditCustomerView");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCustomer([Bind(Include = "Id, NameOfCompany, BudgetActualCustomer")] CustomerModel customerModel)
+        {
+            var editCustomerContext = new TermContext();
 
+            if (ModelState.IsValid)
+            {
+                editCustomerContext.Entry(customerModel).State = EntityState.Modified;
+                editCustomerContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
             return View("EditCustomerView");
         }
         [HttpGet]
@@ -51,36 +72,47 @@ namespace YouNeedToClose.Controllers
             {
                 editCategoryContext.Entry(categoryModel).State = EntityState.Modified;
                 editCategoryContext.SaveChanges();
-                return View("Index");
+                return RedirectToAction("Index");
             }
             return View("EditCategoryView");
         }
-        /*[HttpGet]
-        public ActionResult Edit(int id)
-        {
-            using (var editCategoryContext = new TermContext())
-            {
-                return View(editCategoryContext.Term.Find(id));
-            }
-        }
-        [HttpPost]
-        public ActionResult Edit(int id, TermModel Term)
-        {
-            using (var editCategoryContext = new TermContext())
-            {
-                editCategoryContext.Entry<TermModel>(Term).State =
-                     System.Data.Entity.EntityState.Modified;
-                editCategoryContext.SaveChanges();
-                return RedirectToAction("Index");
-            }
-        }*/
-        public ActionResult CreateNewCategory(int? id)
+        /*public ActionResult CreateNewCategory(int? id)
         {
             if (id == null)
             {
                 ;
             }
 
+            return View("CreateNewCategoryView");
+        }*/
+        [HttpGet]
+        public ActionResult CreateNewCategory(int? id)
+        {
+            var createCategoryContext = new TermContext();
+
+            if (id == null)
+            {
+                ;
+            }
+            TermModel term = createCategoryContext.Term.Find(id);
+            if (term == null)
+            {
+                return HttpNotFound();
+            }
+            return View("CreateNewCategoryView");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateNewCategory(CategoryModel categoryModel)
+        {
+            var createCategoryContext = new TermContext();
+
+            if (ModelState.IsValid)
+            {
+                createCategoryContext.Entry(categoryModel).State = EntityState.Added;
+                createCategoryContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
             return View("CreateNewCategoryView");
         }
         public ActionResult CreateNewCustomer(int? id)
@@ -104,7 +136,7 @@ namespace YouNeedToClose.Controllers
         }
         public ActionResult TermDisplay(int? id)
         {
-            id = 1;
+            
             TermModel term = new TermModel();
             if (id == null)
             {
