@@ -16,7 +16,9 @@ namespace DataAccess.Models
         public DateTime StartDate { get; set; }
         public virtual List<CategoryModel> Categories { get; set; }
         [NotMapped]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
         public virtual BudgetActualModel BudgetActual { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
         public virtual ProjectedGoalModel ProjectedGoal { get; set; }
         public int NextId { get; set; }
         public int PrevId { get; set; }

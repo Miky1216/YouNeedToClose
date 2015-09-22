@@ -14,6 +14,7 @@ namespace DataAccess.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [DisplayName("Income Projection")]
-        public virtual double ExpectedAmountToEarn { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
+        public double ExpectedAmountToEarn { get; set; }
     }
 }

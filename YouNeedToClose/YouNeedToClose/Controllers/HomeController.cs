@@ -37,7 +37,7 @@ namespace YouNeedToClose.Controllers
             int? termId = (int?)TempData["termId"];
 
             TermModel term = projectedGoalContext.Term.Find(termId);
-            term.ProjectedGoal = projectedGoalModel; 
+            term.ProjectedGoal = projectedGoalModel;
 
             if (ModelState.IsValid)
             {
@@ -45,7 +45,7 @@ namespace YouNeedToClose.Controllers
                 projectedGoalContext.SaveChanges();
                 return RedirectToAction("MonthOverview");
             }
-            return View("ProjectedGoalView");
+            return View("ProjectedGoalView".ToList());
         }
         [HttpGet]
         public ActionResult EditCustomer(int? id)
@@ -68,7 +68,7 @@ namespace YouNeedToClose.Controllers
                 editCustomerContext.SaveChanges();
                 return RedirectToAction("MonthOverview");
             }
-            return View("SaleClosedView");
+            return View("EditCustomerView");
         }
         [HttpGet]
         public ActionResult SaleClosed(int? id)
@@ -265,12 +265,13 @@ namespace YouNeedToClose.Controllers
                         term.BudgetActual.Actual += termCategory.BudgetActualCategory.Actual;
                         term.BudgetActual.Difference += termCategory.BudgetActualCategory.Difference;
                     }
-                    var projectedMonthlyGoal = new ProjectedGoalModel
+                    /*var projectedMonthlyGoal = new ProjectedGoalModel
                     {
                         ExpectedAmountToEarn = 50000
-                    };
+                    };*/
                     //if term does not exist
                     //copy categories and budgetted from previous term from database
+                    term.ProjectedGoal.ExpectedAmountToEarn = (term.ProjectedGoal.ExpectedAmountToEarn + term.ProjectedGoal.ExpectedAmountToEarn) / 2;
                 }
             }
            return View("TermView", term);
@@ -284,6 +285,7 @@ namespace YouNeedToClose.Controllers
                TermModel latestTerm = db.Term.OrderByDescending(e => e.Id).FirstOrDefault();
                
                term.PrevId = latestTerm.Id;
+               term.NextId = term.Id + 1;
                term.StartDate = latestTerm.StartDate.AddMonths(1);
                term.ProjectedGoal = latestTerm.ProjectedGoal;
                term.Categories = new List<CategoryModel>();
@@ -299,7 +301,7 @@ namespace YouNeedToClose.Controllers
                        CustomerModel new_custm = new CustomerModel
                        {
                            NameOfCompany = custm.NameOfCompany,
-                           BudgetActualCustomer = new BudgetActualModel { Budget = 0, Actual = 0, Difference = 0 }
+                           BudgetActualCustomer = new BudgetActualModel { Budget = 0, Actual = 0, Difference = 0 },
                        };
                        new_catm.Customers.Add(new_custm);
                    }

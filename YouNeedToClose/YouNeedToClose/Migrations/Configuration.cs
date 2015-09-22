@@ -5,14 +5,14 @@ namespace YouNeedToClose.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<YouNeedToClose.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DataAccess.Models.TermContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(YouNeedToClose.Models.ApplicationDbContext context)
+        protected override void Seed(DataAccess.Models.TermContext context)
         {
             //  This method will be called after migrating to the latest version.
 
