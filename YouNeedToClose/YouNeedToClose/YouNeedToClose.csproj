@@ -239,11 +239,14 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\TermView.cshtml" />
-    <Content Include="Views\MonthOverview\Index.cshtml" />
     <Content Include="Views\Home\CreateNewCategoryView.cshtml" />
     <Content Include="Views\Home\CreateNewCustomerView.cshtml" />
     <Content Include="Views\Home\EditCustomerView.cshtml" />
     <Content Include="Views\Home\EditCategoryView.cshtml" />
+    <Content Include="Views\Home\DeleteCustomerView.cshtml" />
+    <Content Include="Views\Home\SaleClosedView.cshtml" />
+    <Content Include="Views\Home\DeleteCategoryView.cshtml" />
+    <Content Include="Views\Home\ProjectedGoalView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

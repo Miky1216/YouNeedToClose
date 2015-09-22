@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace YouNeedToClose.Controllers
 {
     public class HomeController : Controller
@@ -14,7 +15,37 @@ namespace YouNeedToClose.Controllers
         public ActionResult Index(int? id)
         {
             
-            return TermDisplay(id??1);
+            return View();
+        }
+        public ActionResult MonthOverview(int? id)
+        {
+
+            return TermDisplay(id ?? 1);
+        }
+        [HttpGet]
+        public ActionResult ProjectedGoal(int? id)
+        {
+            TempData["termId"] = id;
+
+            return View("ProjectedGoalView");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ProjectedGoal([Bind(Include = "Id, ExpectedAmountToEarn")] ProjectedGoalModel projectedGoalModel)
+        {
+            var projectedGoalContext = new TermContext();
+            int? termId = (int?)TempData["termId"];
+
+            TermModel term = projectedGoalContext.Term.Find(termId);
+            term.ProjectedGoal = projectedGoalModel; 
+
+            if (ModelState.IsValid)
+            {
+                projectedGoalContext.Entry(projectedGoalModel).State = EntityState.Added;
+                projectedGoalContext.SaveChanges();
+                return RedirectToAction("MonthOverview");
+            }
+            return View("ProjectedGoalView");
         }
         [HttpGet]
         public ActionResult EditCustomer(int? id)
@@ -22,11 +53,8 @@ namespace YouNeedToClose.Controllers
             var editCustomerContext = new TermContext();
 
             TermModel term = editCustomerContext.Term.Find(id);
-            if (term == null)
-            {
-                return HttpNotFound();
-            }
-            return View("EditCustomerView");
+            CustomerModel cm = editCustomerContext.CustomerModels.Find(id);
+            return View("EditCustomerView", cm);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -38,9 +66,32 @@ namespace YouNeedToClose.Controllers
             {
                 editCustomerContext.Entry(customerModel).State = EntityState.Modified;
                 editCustomerContext.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("MonthOverview");
             }
-            return View("EditCustomerView");
+            return View("SaleClosedView");
+        }
+        [HttpGet]
+        public ActionResult SaleClosed(int? id)
+        {
+            var saleClosedCustomerContext = new TermContext();
+
+            TermModel term = saleClosedCustomerContext.Term.Find(id);
+            CustomerModel cm = saleClosedCustomerContext.CustomerModels.Find(id);
+            return View("SaleClosedView", cm);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SaleClosed([Bind(Include = "Id, NameOfCompany, BudgetActualCustomer")] CustomerModel customerModel)
+        {
+            var saleClosedCustomerContext = new TermContext();
+
+            if (ModelState.IsValid)
+            {
+                saleClosedCustomerContext.Entry(customerModel).State = EntityState.Modified;
+                saleClosedCustomerContext.SaveChanges();
+                return RedirectToAction("MonthOverview");
+            }
+            return View("SaleClosedView");
         }
         [HttpGet]
         public ActionResult EditCategory(int? id)
@@ -48,11 +99,8 @@ namespace YouNeedToClose.Controllers
             var editCategoryContext = new TermContext();
             
             TermModel term = editCategoryContext.Term.Find(id);
-            if (term == null)
-            {
-                return HttpNotFound();
-            }
-            return View("EditCategoryView");
+            CategoryModel cateModel = editCategoryContext.CategoryModels.Find(id);
+            return View("EditCategoryView", cateModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -64,7 +112,7 @@ namespace YouNeedToClose.Controllers
             {
                 editCategoryContext.Entry(categoryModel).State = EntityState.Modified;
                 editCategoryContext.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("MonthOverview");
             }
             return View("EditCategoryView");
         }
@@ -89,7 +137,7 @@ namespace YouNeedToClose.Controllers
             {
                 createCategoryContext.Entry(categoryModel).State = EntityState.Added;
                 createCategoryContext.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("MonthOverview");
             }
             return View("CreateNewCategoryView");
         }
@@ -114,19 +162,57 @@ namespace YouNeedToClose.Controllers
             {
                 createCustomerContext.Entry(customerModel).State = EntityState.Added;
                 createCustomerContext.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("MonthOverview");
             }
             return View("CreateNewCustomerView");
         }
-        public ActionResult Delete()
+        [HttpGet]
+        public ActionResult DeleteCustomer(int? id)
         {
+            var deleteCustomerContext = new TermContext();
 
-            return View();
+            TermModel term = deleteCustomerContext.Term.Find(id);
+            CustomerModel cm = deleteCustomerContext.CustomerModels.Find(id);
+            return View("DeleteCustomerView", cm);
         }
-        public ActionResult Details()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteCustomer([Bind(Include = "Id, NameOfCompany, BudgetActualCustomer")] CustomerModel customerModel)
         {
+            var deleteCustomerContext = new TermContext();
 
-            return View();
+            if (ModelState.IsValid)
+            {
+                deleteCustomerContext.Entry(customerModel).State = EntityState.Deleted;
+                deleteCustomerContext.CustomerModels.Remove(customerModel);
+                deleteCustomerContext.SaveChanges();
+                return RedirectToAction("MonthOverview");
+            }
+            return View("DeleteCustomerView");
+        }
+        [HttpGet]
+        public ActionResult DeleteCategory(int? id)
+        {
+            var deleteCategoryContext = new TermContext();
+
+            TermModel term = deleteCategoryContext.Term.Find(id);
+            CategoryModel cm = deleteCategoryContext.CategoryModels.Find(id);
+            return View("DeleteCategoryView", cm);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteCategory([Bind(Include = "Id, NameOfCategory")] CategoryModel categoryModel)
+        {
+            var deleteCustomerContext = new TermContext();
+
+            if (ModelState.IsValid)
+            {
+                deleteCustomerContext.Entry(categoryModel).State = EntityState.Deleted;
+                deleteCustomerContext.CategoryModels.Remove(categoryModel);
+                deleteCustomerContext.SaveChanges();
+                return RedirectToAction("MonthOverview");
+            }
+            return View("DeleteCategoryView");
         }
         public ActionResult TermDisplay(int? id)
         {

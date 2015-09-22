@@ -12,6 +12,7 @@ namespace DataAccess.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MMMM}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
         public virtual List<CategoryModel> Categories { get; set; }
         [NotMapped]

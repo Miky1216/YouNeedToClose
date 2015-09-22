@@ -18,3 +18,4 @@ namespace DataAccess.Models
         public double Difference { get; set; }
     }
 }
+

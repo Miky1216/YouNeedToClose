@@ -19,15 +19,34 @@
         padding: 5px;
         text-align: left;
     }
+    body{
+        background-color:#e9e9e9;
+        color:black;
+    }
     #expectedamount{
         font-weight:bold;
     }
     #category{
         font-weight:bold;
-        background-color:yellow;
+        background-color:lightblue;
+        color:black;
     }
     #customer{
         text-indent: 50px;
+    }
+    #options a {
+        color:black;
+    }
+    #categoryOptions{
+        color:black; 
+        font-weight:bold;
+        background-color:lightblue;
+    }
+    #headers{
+       background-color:lightgrey;
+    }
+    #topTableColors{
+       background-color:lightblue;
     }
 </style>
 </head>
@@ -35,92 +54,109 @@
 <div class="container">
     <div id="headercontent" class="row">
         <div id="monthyear" class="col-md-4 text-center">
-            <h2>September</h2>
-            <h4>2015</h4>
+            <h2>@Html.DisplayFor(m => Model.StartDate) </h2>
+            <h4>@Html.DisplayFor(m => Model.StartDate.Year) </h4>
+            <p>
+                <br />
+                    @Html.ActionLink("New Category", "CreateNewCategory", new { id = Model.Id }, new { @class = "btn btn-info", })
+            </p>
         </div>
         <div id="expectedamount" class="col-md-8">
+            <p>
+                <br />
             <table style="width:100%">
                     <tr>
-                        <th>Amount Expected Monthly:</th>
-                        <td>$50,000</td>
+                        <th id="headers">Amount Expected Monthly:</th>
+                       <td>
+                           50000
+                        </td>
                     </tr>
                     <tr>
-                        <th>Total Budget For Month:</th>
+                        <th id="headers">Total Budget For Month:</th>
                         <td>
                             @Html.DisplayFor(modelItem => Model.BudgetActual.Budget)
                         </td>
                     </tr>
-                    <tr>
-                        <th>Total Amount Earned For Month:</th>
+                    <tr> 
+                        <th id="headers">Total Amount Earned For Month:</th>
                         <td>
                             @Html.DisplayFor(modelItem => Model.BudgetActual.Actual)
                         </td>
                     </tr>       
             </table>
+            </p>
         </div>
     </div>
-    <div class="row">
-        @Html.ActionLink("Create New Category", "CreateNewCategory", new { id = Model.Id})
-    </div>
     <div id="table" class="row">
-        <table style="width:100%">
-            <tr>
-                <th>Categories</th>
-                <th>Budgeted</th>
-                <th>Actual</th>
-                <th>Difference</th>
-                <th>Options</th>
-            </tr>
-            @foreach (var item in Model.Categories)
-            {
-                <tr>
-                    <td id="category">
-                        @Html.DisplayFor(modelItem => item.NameOfCategory)
-                    </td>
-                    <td id="category">
-                        @Html.DisplayFor(modelItem => item.BudgetActualCategory.Budget)
-                    </td>
-                    <td id="category">
-                        @Html.DisplayFor(modelItem => item.BudgetActualCategory.Actual)
-                    </td>
-                    <td id="category">
-                        @Html.DisplayFor(modelItem => item.BudgetActualCategory.Difference)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Create New Customer", "CreateNewCustomer", new { id = item.Id }) |
-                        @Html.ActionLink("Edit", "EditCategory", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id })  |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
-                </tr>
-                foreach (var customer in item.Customers)
-                {
-                    <tr>
-                        <td id="customer">
-                            @Html.DisplayFor(modelItem => customer.NameOfCompany)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => customer.BudgetActualCustomer.Budget)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => customer.BudgetActualCustomer.Actual)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => customer.BudgetActualCustomer.Difference)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Edit", "EditCustomer", new { id = item.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.Id })  |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                        </td>
+        <div class="col-sm-12">
+            <p>
+                <table style="width:100%">
+                    <tr id ="headers">
+                        <th>Categories</th>
+                        <th>Budgeted</th>
+                        <th>Actual</th>
+                        <th>Difference</th>
+                        <th>Options</th>
                     </tr>
-                }
-            }
-        </table>
-    <div class="col-md-50">
-        <input type="submit" value="Sale Closed" class="btn btn-default" />
+                    @foreach (var item in Model.Categories)
+                    {
+                        <tr>
+                            <td id="category">
+                                @Html.DisplayFor(modelItem => item.NameOfCategory)
+                            </td>
+                            <td id="category">
+                                @Html.DisplayFor(modelItem => item.BudgetActualCategory.Budget)
+                            </td>
+                            <td id="category">
+                                @Html.DisplayFor(modelItem => item.BudgetActualCategory.Actual)
+                            </td>
+                            <td id="category">
+                                @Html.DisplayFor(modelItem => item.BudgetActualCategory.Difference)
+                            </td>
+                            <td id ="categoryOptions">
+                                @Html.ActionLink("Create New Customer", "CreateNewCustomer", new { id = item.Id }, new { @class = "btn btn-info" }) |
+                                @Html.ActionLink("Edit", "EditCategory", new { id = item.Id }, new { @class = "btn btn-info" }) |
+                                @Html.ActionLink("Delete", "DeleteCategory", new { id = item.Id }, new { @class = "btn btn-info" })
+                            </td>
+                        </tr>
+                        foreach (var customer in item.Customers)
+                        {
+                            <tr>
+                                <td id="customer">
+                                    @Html.DisplayFor(modelItem => customer.NameOfCompany)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => customer.BudgetActualCustomer.Budget)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => customer.BudgetActualCustomer.Actual)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => customer.BudgetActualCustomer.Difference)
+                                </td>
+                                <td id="options">
+                                    @Html.ActionLink("Sale Closed", "SaleClosed", new { id = customer.Id }) |
+                                    @Html.ActionLink("Edit", "EditCustomer", new { id = customer.Id }) |
+                                    @Html.ActionLink("Delete", "DeleteCustomer", new { id = customer.Id })
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </p>
+            </div>
+        </div>
+        <div id="table buttons" class="row">
+            <div class="col-sm-12">
+                <p>
+                    <center>
+                        @Html.ActionLink("Previous Month", "MonthOverview", new { id = Model.PrevId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Next Month", "MonthOverview", new { id = Model.NextId }, new { @class = "btn btn-info" })
+                    </center>
+                </p>
+                </div>
+            </div>
     </div>
-</div>
-    @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/bootstrap")
 </body>
 </html>
