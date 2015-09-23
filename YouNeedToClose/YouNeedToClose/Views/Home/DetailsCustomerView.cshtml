@@ -1,0 +1,71 @@
+﻿@model DataAccess.Models.CustomerModel
+
+@{
+    ViewBag.Title = "DetailsCustomerView";
+}
+
+<style>
+table{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td{
+        padding: 5px;
+        text-align: left;
+    }
+tr{
+    border: 1px solid black;
+}
+#headers{
+    background-color:lightgrey;
+    }
+td{
+    background-color:lightblue;
+}
+body{
+        background-color:#e9e9e9;
+        color:black;
+    }
+</style>
+
+<h2>Details About Customer</h2>
+<h4>Having a detail of motivations to sell to a particular customer is important</h4>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.DetailsOfCustomer.ContactName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DetailsOfCustomer.ContactName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DetailsOfCustomer.ContactName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+                <p>
+                    <input type="submit" value="Add To Table" class="btn btn-info" />
+                </p>
+        </div>
+        <br />
+        <div class ="row">
+            <div class="col-sm-12">
+                <table id="table" style="width:50%"> 
+                    <tr id="headers">
+                        <th>Contact Name</th>
+                        <th>Motivations</th>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayFor(model => Model.DetailsOfCustomer.ContactName)</td>
+                        <td>@Html.DisplayFor(model => Model.DetailsOfCustomer.CustomerMotivations)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+}

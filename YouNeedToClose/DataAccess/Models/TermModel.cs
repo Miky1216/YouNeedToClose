@@ -20,6 +20,7 @@ namespace DataAccess.Models
         public virtual BudgetActualModel BudgetActual { get; set; }
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
         public virtual ProjectedGoalModel ProjectedGoal { get; set; }
+        public virtual DetailsCustomerModel DetailsCustomer { get; set; }
         public int NextId { get; set; }
         public int PrevId { get; set; }
    }

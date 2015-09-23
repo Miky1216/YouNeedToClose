@@ -16,24 +16,11 @@ namespace DataAccess.Migrations
 
         protected override void Seed(DataAccess.Models.TermContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
-
  
             TermModel term = new TermModel();
+            DetailsCustomerModel detailsCustomer = new DetailsCustomerModel();
             var startDate = new DateTime(2015, 9, 1);
             var category = new List<CategoryModel>
-
             {
                 new CategoryModel
                 {NameOfCategory="Reliable Customer", Customers = new List<CustomerModel>
@@ -41,11 +28,21 @@ namespace DataAccess.Migrations
                         new CustomerModel{NameOfCompany="GameStop", BudgetActualCustomer = new BudgetActualModel
                         {
                             Budget=800, Actual=1000, Difference=200
-                        }},
+                        },
+                            DetailsOfCustomer = new DetailsCustomerModel
+                            {
+                                ContactName = "John Smith", CustomerMotivations = "This is my motivation for the sale."
+                            }
+                        },
                         new CustomerModel{NameOfCompany="BestBuy", BudgetActualCustomer = new BudgetActualModel
                         {
                             Budget=800, Actual=1000, Difference=200
-                        }},
+                        },
+                            DetailsOfCustomer = new DetailsCustomerModel
+                            {
+                                ContactName = "Adam Apple", CustomerMotivations = "Here are my motivations."
+                            }
+                        },
                         new CustomerModel{NameOfCompany="Target", BudgetActualCustomer = new BudgetActualModel
                         {
                             Budget=800, Actual=1000, Difference=200
@@ -83,8 +80,9 @@ namespace DataAccess.Migrations
                             Budget=800, Actual=1000, Difference=100
                         }}
                 }
-            }}
+            }},
         };
+
             term.StartDate = startDate;
             term.Categories = category;
             term.BudgetActual = new BudgetActualModel
@@ -94,11 +92,10 @@ namespace DataAccess.Migrations
                 Difference = 0
             };
 
-  
-            
             using (var db = new TermContext())
             {
                 db.Term.Add(term);
+                db.DetailsCustomer.Add(detailsCustomer);
                 db.SaveChanges();
             }
         }

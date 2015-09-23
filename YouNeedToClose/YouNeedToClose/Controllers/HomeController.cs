@@ -22,6 +22,7 @@ namespace YouNeedToClose.Controllers
 
             return TermDisplay(id ?? 1);
         }
+
         [HttpGet]
         public ActionResult ProjectedGoal(int? id)
         {
@@ -47,6 +48,7 @@ namespace YouNeedToClose.Controllers
             }
             return View("ProjectedGoalView".ToList());
         }
+
         [HttpGet]
         public ActionResult EditCustomer(int? id)
         {
@@ -70,6 +72,7 @@ namespace YouNeedToClose.Controllers
             }
             return View("EditCustomerView");
         }
+
         [HttpGet]
         public ActionResult SaleClosed(int? id)
         {
@@ -93,6 +96,7 @@ namespace YouNeedToClose.Controllers
             }
             return View("SaleClosedView");
         }
+
         [HttpGet]
         public ActionResult EditCategory(int? id)
         {
@@ -116,6 +120,7 @@ namespace YouNeedToClose.Controllers
             }
             return View("EditCategoryView");
         }
+
         [HttpGet]
         public ActionResult CreateNewCategory(int? id)
         {
@@ -141,6 +146,7 @@ namespace YouNeedToClose.Controllers
             }
             return View("CreateNewCategoryView");
         }
+
         [HttpGet]
         public ActionResult CreateNewCustomer(int? id)
         {
@@ -166,6 +172,7 @@ namespace YouNeedToClose.Controllers
             }
             return View("CreateNewCustomerView");
         }
+
         [HttpGet]
         public ActionResult DeleteCustomer(int? id)
         {
@@ -190,6 +197,7 @@ namespace YouNeedToClose.Controllers
             }
             return View("DeleteCustomerView");
         }
+
         [HttpGet]
         public ActionResult DeleteCategory(int? id)
         {
@@ -213,6 +221,31 @@ namespace YouNeedToClose.Controllers
                 return RedirectToAction("MonthOverview");
             }
             return View("DeleteCategoryView");
+        }
+
+        [HttpGet]
+        public ActionResult DetailsCustomer(int? id)
+        {
+            TempData["termId"] = id;
+
+            return View("DetailsCustomerView");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DetailsCustomer([Bind(Include = "Id, ContactName, CustomerMotivations")]DetailsCustomerModel detailsModel)
+        {
+            var createDetailsContext = new TermContext();
+            int? termId = (int?)TempData["termId"];
+
+            TermModel term = createDetailsContext.Term.Find(termId);
+            term.DetailsCustomer = detailsModel;
+
+            if (ModelState.IsValid)
+            {
+                createDetailsContext.Entry(detailsModel).State = EntityState.Added;
+                createDetailsContext.SaveChanges();
+            }
+            return View("DetailsCustomerView");
         }
         public ActionResult TermDisplay(int? id)
         {

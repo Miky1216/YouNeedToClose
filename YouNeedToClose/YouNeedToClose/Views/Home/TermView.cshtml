@@ -59,6 +59,7 @@
             <p>
                 <br />
                     @Html.ActionLink("New Category", "CreateNewCategory", new { id = Model.Id }, new { @class = "btn btn-info", })
+                    @Html.ActionLink("Reports", "", new { id = Model.Id }, new { @class = "btn btn-info", })
             </p>
         </div>
         <div id="expectedamount" class="col-md-8">
@@ -136,6 +137,7 @@
                                 </td>
                                 <td id="options">
                                     @Html.ActionLink("Sale Closed", "SaleClosed", new { id = customer.Id }) |
+                                    @Html.ActionLink("Details", "DetailsCustomer", new { id = customer.Id }) |
                                     @Html.ActionLink("Edit", "EditCustomer", new { id = customer.Id }) |
                                     @Html.ActionLink("Delete", "DeleteCustomer", new { id = customer.Id })
                                 </td>
@@ -151,7 +153,7 @@
                 <p>
                     <center>
                         @Html.ActionLink("Previous Month", "MonthOverview", new { id = Model.PrevId }, new { @class = "btn btn-info" })
-                        @Html.ActionLink("Next Month", "MonthOverview", new { id = Model.NextId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Next Month", "MonthOverview", new { id = Model.Id+1 }, new { @class = "btn btn-info" })
                     </center>
                 </p>
                 </div>
