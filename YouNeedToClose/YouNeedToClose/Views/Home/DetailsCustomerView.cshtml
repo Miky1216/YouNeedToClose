@@ -1,4 +1,4 @@
-﻿@model DataAccess.Models.CustomerModel
+﻿@model DataAccess.Models.DetailsCustomerModel
 
 @{
     ViewBag.Title = "DetailsCustomerView";
@@ -41,16 +41,21 @@ body{
         @Html.HiddenFor(model => model.Id)
         
         <div class="form-group">
-            @Html.LabelFor(model => model.DetailsOfCustomer.ContactName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ContactName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DetailsOfCustomer.ContactName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DetailsOfCustomer.ContactName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContactName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CustomerMotivations, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CustomerMotivations, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CustomerMotivations, "", new { @class = "text-danger" })
             </div>
         </div>
         <div>
-                <p>
-                    <input type="submit" value="Add To Table" class="btn btn-info" />
-                </p>
+            <input type="submit" value="Add To Table" class="btn btn-info" />
         </div>
         <br />
         <div class ="row">
@@ -61,8 +66,8 @@ body{
                         <th>Motivations</th>
                     </tr>
                     <tr>
-                        <td>@Html.DisplayFor(model => Model.DetailsOfCustomer.ContactName)</td>
-                        <td>@Html.DisplayFor(model => Model.DetailsOfCustomer.CustomerMotivations)</td>
+                        <td>@Html.DisplayFor(model => Model.ContactName)</td>
+                        <td>@Html.DisplayFor(model => Model.CustomerMotivations)</td>
                     </tr>
                 </table>
             </div>

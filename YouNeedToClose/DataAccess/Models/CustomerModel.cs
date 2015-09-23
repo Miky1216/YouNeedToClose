@@ -17,6 +17,6 @@ namespace DataAccess.Models
         public string NameOfCompany { get; set; }
         [DisplayName("Amount Budgeted")]
         public virtual BudgetActualModel BudgetActualCustomer { get; set; }
-        public virtual DetailsCustomerModel DetailsOfCustomer { get; set; }
+        public virtual List<DetailsCustomerModel> DetailsOfCustomer { get; set; }
     }
 }

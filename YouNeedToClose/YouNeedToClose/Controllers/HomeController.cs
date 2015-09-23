@@ -226,9 +226,12 @@ namespace YouNeedToClose.Controllers
         [HttpGet]
         public ActionResult DetailsCustomer(int? id)
         {
+            var createDetailsContext = new TermContext();
+            
+            TermModel term = createDetailsContext.Term.Find(id);
+            CustomerModel cm = createDetailsContext.CustomerModels.Find(id);
             TempData["termId"] = id;
-
-            return View("DetailsCustomerView");
+            return View("DetailsCustomerView", cm);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
