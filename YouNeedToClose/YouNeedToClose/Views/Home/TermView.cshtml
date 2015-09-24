@@ -137,7 +137,7 @@
                                 </td>
                                 <td id="options">
                                     @Html.ActionLink("Sale Closed", "SaleClosed", new { id = customer.Id }) |
-                                    @Html.ActionLink("Details", "DetailsCustomer", new { id = customer.Id }) |
+                                    @Html.ActionLink("Details", "DetailsCustomer", new { id = customer.Id, termID=Model.Id }) |
                                     @Html.ActionLink("Edit", "EditCustomer", new { id = customer.Id }) |
                                     @Html.ActionLink("Delete", "DeleteCustomer", new { id = customer.Id })
                                 </td>
