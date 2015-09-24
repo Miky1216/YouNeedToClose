@@ -226,9 +226,11 @@ namespace YouNeedToClose.Controllers
         [HttpGet]
         public ActionResult DetailsCustomer(int? id, int ? termID)
         {
+            var createDetailsContext = new TermContext();
 
             TempData["termId"] = termID;
-            return View("DetailsCustomerView");
+            DetailsCustomerModel dm = createDetailsContext.DetailsCustomer.Find(id);
+            return View("DetailsCustomerView", dm);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -244,7 +246,7 @@ namespace YouNeedToClose.Controllers
             {
                 createDetailsContext.Entry(detailsModel).State = EntityState.Added;
                 createDetailsContext.SaveChanges();
-                RedirectToAction("DetailsCustomerView", detailsModel);
+               // RedirectToAction("DetailsCustomerView", detailsModel);
             }
             return View("DetailsCustomerView", detailsModel);
         }

@@ -28,25 +28,15 @@ namespace DataAccess.Migrations
                         new CustomerModel{NameOfCompany="GameStop", BudgetActualCustomer = new BudgetActualModel
                         {
                             Budget=800, Actual=1000, Difference=200
-                        },
-                            DetailsOfCustomer = new DetailsCustomerModel
-                            {
-                                ContactName = "John Smith", CustomerMotivations = "This is my motivation for the sale."
-                            }
-                        },
+                        }},
                         new CustomerModel{NameOfCompany="BestBuy", BudgetActualCustomer = new BudgetActualModel
                         {
                             Budget=800, Actual=1000, Difference=200
-                        },
-                            DetailsOfCustomer = new DetailsCustomerModel
-                            {
-                                ContactName = "Adam Apple", CustomerMotivations = "Here are my motivations."
-                            }
-                        },
+                        }},
                         new CustomerModel{NameOfCompany="Target", BudgetActualCustomer = new BudgetActualModel
                         {
                             Budget=800, Actual=1000, Difference=200
-                        }}
+                        }},
                     }
                 },
                 {
@@ -95,7 +85,6 @@ namespace DataAccess.Migrations
             using (var db = new TermContext())
             {
                 db.Term.Add(term);
-                db.DetailsCustomer.Add(detailsCustomer);
                 db.SaveChanges();
             }
         }
