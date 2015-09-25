@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-
+using YouNeedToClose.Models;
 
 namespace YouNeedToClose.Controllers
 {
@@ -246,7 +246,7 @@ namespace YouNeedToClose.Controllers
             {
                 createDetailsContext.Entry(detailsModel).State = EntityState.Added;
                 createDetailsContext.SaveChanges();
-               // RedirectToAction("DetailsCustomerView", detailsModel);
+           //   RedirectToAction("DetailsCustomerView", detailsModel);
             }
             return View("DetailsCustomerView", detailsModel);
         }
@@ -322,6 +322,20 @@ namespace YouNeedToClose.Controllers
                
                term.PrevId = latestTerm.Id;
                term.NextId = term.Id + 1;
+               
+               /* select * from
+                * ApplicationUser innerjoin
+                * terms on user.Id = terms.userId
+                * order by terms.Id
+                * where user = current user
+                * TermContext has a ApplicationUser, ApplicationUser has a list of terms
+                * Must figure out how to make the termcontext understand what user is logged in*/
+                
+                ApplicationUser applicationUser = new ApplicationUser();
+                
+
+
+                
                term.StartDate = latestTerm.StartDate.AddMonths(1);
                term.ProjectedGoal = latestTerm.ProjectedGoal;
                term.Categories = new List<CategoryModel>();

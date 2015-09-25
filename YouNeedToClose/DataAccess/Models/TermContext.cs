@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+//using YouNeedToClose.Models;
+
 
 namespace DataAccess.Models
 {
@@ -10,6 +12,7 @@ namespace DataAccess.Models
     {
         public DbSet<TermModel> Term { get; set; }
         public DbSet<DetailsCustomerModel> DetailsCustomer { get; set; }
+        //public ApplicationUser ApplicationUser { get; set; }
         public System.Data.Entity.DbSet<DataAccess.Models.CategoryModel> CategoryModels { get; set; }
         public System.Data.Entity.DbSet<DataAccess.Models.CustomerModel> CustomerModels { get; set; }
     }
