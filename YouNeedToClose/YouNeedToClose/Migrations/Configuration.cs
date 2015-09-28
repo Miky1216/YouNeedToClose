@@ -17,14 +17,6 @@ namespace YouNeedToClose.Migrations
         protected override void Seed(DataAccess.Models.TermContext context)
         {
 
-            TermModel term = new TermModel();
-            var startDate = new DateTime(2015, 9, 1);
-
-            using (var db = new TermContext())
-            {
-                db.Term.Add(term);
-                db.SaveChanges();
-            }
         }
     }
 }
