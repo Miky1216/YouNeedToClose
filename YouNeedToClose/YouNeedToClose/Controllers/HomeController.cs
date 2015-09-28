@@ -7,11 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using YouNeedToClose.Models;
+using Microsoft.AspNet.Identity;
 
 namespace YouNeedToClose.Controllers
 {
     public class HomeController : Controller
     {
+        public ApplicationSignInManager signInManager;
+        public ApplicationUserManager userManager;
         public ActionResult Index(int? id)
         {
             
@@ -301,10 +304,6 @@ namespace YouNeedToClose.Controllers
                         term.BudgetActual.Actual += termCategory.BudgetActualCategory.Actual;
                         term.BudgetActual.Difference += termCategory.BudgetActualCategory.Difference;
                     }
-                    /*var projectedMonthlyGoal = new ProjectedGoalModel
-                    {
-                        ExpectedAmountToEarn = 50000
-                    };*/
                     //if term does not exist
                     //copy categories and budgetted from previous term from database
                     term.ProjectedGoal.ExpectedAmountToEarn = (term.ProjectedGoal.ExpectedAmountToEarn + term.ProjectedGoal.ExpectedAmountToEarn) / 2;
@@ -312,53 +311,49 @@ namespace YouNeedToClose.Controllers
             }
            return View("TermView", term);
         }
-
+        public ApplicationDbContext ApplicationDbContext { get; set; }
+        public UserManager<ApplicationUser> UserManager { get; set; }
+        
         private TermModel GetNewTerm()
         {
-            TermModel term = new TermModel();
-            using (var db = new TermContext())
+            using (ApplicationDbContext c = new ApplicationDbContext())
             {
-               TermModel latestTerm = db.Term.OrderByDescending(e => e.Id).FirstOrDefault();
-               
-               term.PrevId = latestTerm.Id;
-               term.NextId = term.Id + 1;
-               
-               /* select * from
-                * ApplicationUser innerjoin
-                * terms on user.Id = terms.userId
-                * order by terms.Id
-                * where user = current user
-                * TermContext has a ApplicationUser, ApplicationUser has a list of terms
-                * Must figure out how to make the termcontext understand what user is logged in*/
+                var user = c.Users.Find(User.Identity.GetUserId());
+                ((ApplicationUser)user).Terms.Add(new TermModel());
+
+                var applicationUser = user.Terms.OrderByDescending(a => a.Id);                    
+
+                TermModel term = new TermModel();
+                TermModel latestTerm = user.Terms.OrderByDescending(e => e.Id).FirstOrDefault();
+
+                user.Terms.Add(term);
+                c.SaveChanges();
+                term.PrevId = latestTerm.Id;
+                term.NextId = null;
+
+                term.StartDate = latestTerm.StartDate.AddMonths(1);
+                term.ProjectedGoal = latestTerm.ProjectedGoal;
                 
-                ApplicationUser applicationUser = new ApplicationUser();
-                
+                term.Categories = new List<CategoryModel>();
+                foreach(CategoryModel catm in latestTerm.Categories)//perform deep copy
+                {
+                    CategoryModel new_catm = new CategoryModel { NameOfCategory = catm.NameOfCategory,
+                    Customers = new List<CustomerModel>()
+                    };
 
-
-                
-               term.StartDate = latestTerm.StartDate.AddMonths(1);
-               term.ProjectedGoal = latestTerm.ProjectedGoal;
-               term.Categories = new List<CategoryModel>();
-
-               foreach(CategoryModel catm in latestTerm.Categories)//perform deep copy
-               {
-                   CategoryModel new_catm = new CategoryModel { NameOfCategory = catm.NameOfCategory,
-                   Customers = new List<CustomerModel>()
-                   };
-
-                   foreach(CustomerModel custm in catm.Customers)
-                   {
-                       CustomerModel new_custm = new CustomerModel
-                       {
-                           NameOfCompany = custm.NameOfCompany,
-                           BudgetActualCustomer = new BudgetActualModel { Budget = 0, Actual = 0, Difference = 0 },
-                       };
-                       new_catm.Customers.Add(new_custm);
-                   }
-                   term.Categories.Add(new_catm);
-               }
+                    foreach(CustomerModel custm in catm.Customers)
+                    {
+                        CustomerModel new_custm = new CustomerModel
+                        {
+                            NameOfCompany = custm.NameOfCompany,
+                            BudgetActualCustomer = new BudgetActualModel { Budget = 0, Actual = 0, Difference = 0 },
+                        };
+                        new_catm.Customers.Add(new_custm);
+                    }
+                    term.Categories.Add(new_catm);
+                }
+                return term;
             }
-            return term;
         }
     }
 }

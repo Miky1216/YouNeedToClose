@@ -75,12 +75,6 @@ namespace YouNeedToClose.Migrations
                         ExpectedAmountToEarn = c.Double(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
-            
-            DropTable("dbo.AspNetRoles");
-            DropTable("dbo.AspNetUserRoles");
-            DropTable("dbo.AspNetUsers");
-            DropTable("dbo.AspNetUserClaims");
-            DropTable("dbo.AspNetUserLogins");
         }
         
         public override void Down()

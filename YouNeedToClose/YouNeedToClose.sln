@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouNeedToClose", "YouNeedTo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouNeedToClose.Tests", "YouNeedToClose.Tests\YouNeedToClose.Tests.csproj", "{94C09B4A-95F6-4731-B500-AC78212D6C36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{DC94F4EB-B823-415C-A1C9-503B96F0F281}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{94C09B4A-95F6-4731-B500-AC78212D6C36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94C09B4A-95F6-4731-B500-AC78212D6C36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94C09B4A-95F6-4731-B500-AC78212D6C36}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC94F4EB-B823-415C-A1C9-503B96F0F281}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC94F4EB-B823-415C-A1C9-503B96F0F281}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC94F4EB-B823-415C-A1C9-503B96F0F281}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC94F4EB-B823-415C-A1C9-503B96F0F281}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
