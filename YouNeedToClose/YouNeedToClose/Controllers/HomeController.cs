@@ -41,6 +41,12 @@ namespace YouNeedToClose.Controllers
             int? termId = (int?)TempData["termId"];
 
             TermModel term = projectedGoalContext.Term.Find(termId);
+            if (term == null)
+            {
+                term = GetNewTerm();
+                projectedGoalContext.Term.Add(term);
+                projectedGoalContext.SaveChanges();
+            }
             term.ProjectedGoal = projectedGoalModel;
 
             if (ModelState.IsValid)
@@ -324,6 +330,8 @@ namespace YouNeedToClose.Controllers
                 var applicationUser = user.Terms.OrderByDescending(a => a.Id);                    
 
                 TermModel term = new TermModel();
+                //TermModel latestTerm = db.Term.OrderByDescending(e => e.Id).FirstOrDefault(); ---What it was before context change
+                //TermModel latestTerm = user.Terms.OrderByDescending(e => e.Id).FirstOrDefault(); ---What it was changed to
                 TermModel latestTerm = user.Terms.OrderByDescending(e => e.Id).FirstOrDefault();
 
                 user.Terms.Add(term);
@@ -331,9 +339,23 @@ namespace YouNeedToClose.Controllers
                 term.PrevId = latestTerm.Id;
                 term.NextId = null;
 
-                term.StartDate = latestTerm.StartDate.AddMonths(1);
+                //term.StartDate = latestTerm.StartDate.AddMonths(1);
+                term.StartDate = DateTime.Now.AddMonths(1);
                 term.ProjectedGoal = latestTerm.ProjectedGoal;
                 
+                var category = new List<CategoryModel>
+                {
+                    new CategoryModel
+                    {
+                        NameOfCategory = "Reliable Customer", Customers = new List<CustomerModel>
+                        {
+                            new CustomerModel{NameOfCompany="Company Name Example", BudgetActualCustomer = new BudgetActualModel
+                            {
+                                Budget = 0, Actual = 0, Difference = 0
+                            }}
+                        }
+                    }
+                };
                 term.Categories = new List<CategoryModel>();
                 foreach(CategoryModel catm in latestTerm.Categories)//perform deep copy
                 {
