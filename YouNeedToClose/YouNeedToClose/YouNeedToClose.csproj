@@ -173,33 +173,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201509171856340_InitialMigration.cs" />
-    <Compile Include="Migrations\201509171856340_InitialMigration.Designer.cs">
-      <DependentUpon>201509171856340_InitialMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509171906596_SeedData.cs" />
-    <Compile Include="Migrations\201509171906596_SeedData.Designer.cs">
-      <DependentUpon>201509171906596_SeedData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509171926163_SeedDataAccess1.cs" />
-    <Compile Include="Migrations\201509171926163_SeedDataAccess1.Designer.cs">
-      <DependentUpon>201509171926163_SeedDataAccess1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509222239197_InitialMigrationYNTC.cs" />
-    <Compile Include="Migrations\201509222239197_InitialMigrationYNTC.Designer.cs">
-      <DependentUpon>201509222239197_InitialMigrationYNTC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509231518290_AddedDetailsCustomer.cs" />
-    <Compile Include="Migrations\201509231518290_AddedDetailsCustomer.Designer.cs">
-      <DependentUpon>201509231518290_AddedDetailsCustomer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509240017573_Mig1.cs" />
-    <Compile Include="Migrations\201509240017573_Mig1.Designer.cs">
-      <DependentUpon>201509240017573_Mig1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509252019150_NewMig.cs" />
-    <Compile Include="Migrations\201509252019150_NewMig.Designer.cs">
-      <DependentUpon>201509252019150_NewMig.cs</DependentUpon>
+    <Compile Include="Migrations\201509282113051_NewMigration01.cs" />
+    <Compile Include="Migrations\201509282113051_NewMigration01.Designer.cs">
+      <DependentUpon>201509282113051_NewMigration01.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -298,26 +274,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201509171856340_InitialMigration.resx">
-      <DependentUpon>201509171856340_InitialMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509171906596_SeedData.resx">
-      <DependentUpon>201509171906596_SeedData.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509171926163_SeedDataAccess1.resx">
-      <DependentUpon>201509171926163_SeedDataAccess1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509222239197_InitialMigrationYNTC.resx">
-      <DependentUpon>201509222239197_InitialMigrationYNTC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509231518290_AddedDetailsCustomer.resx">
-      <DependentUpon>201509231518290_AddedDetailsCustomer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509240017573_Mig1.resx">
-      <DependentUpon>201509240017573_Mig1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509252019150_NewMig.resx">
-      <DependentUpon>201509252019150_NewMig.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201509282113051_NewMigration01.resx">
+      <DependentUpon>201509282113051_NewMigration01.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

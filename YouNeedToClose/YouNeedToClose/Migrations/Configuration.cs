@@ -12,6 +12,7 @@ namespace YouNeedToClose.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(DataAccess.Models.TermContext context)
