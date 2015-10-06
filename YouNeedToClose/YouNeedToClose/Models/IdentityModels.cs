@@ -3,8 +3,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using DataAccess.Models;
 using System.Collections.Generic;
+
 
 namespace YouNeedToClose.Models
 {
@@ -23,6 +23,11 @@ namespace YouNeedToClose.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<TermModel> Term { get; set; }
+        public DbSet<DetailsCustomerModel> DetailsCustomer { get; set; }
+        public List<ApplicationUser> ApplicationUsers { get; set; }
+        public System.Data.Entity.DbSet<YouNeedToClose.Models.CategoryModel> CategoryModels { get; set; }
+        public System.Data.Entity.DbSet<YouNeedToClose.Models.CustomerModel> CustomerModels { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

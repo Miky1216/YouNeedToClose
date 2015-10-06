@@ -181,6 +181,10 @@
     <Compile Include="Migrations\201509282240444_NewMigration02.Designer.cs">
       <DependentUpon>201509282240444_NewMigration02.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510021722201_hahanotfreakingout.cs" />
+    <Compile Include="Migrations\201510021722201_hahanotfreakingout.Designer.cs">
+      <DependentUpon>201510021722201_hahanotfreakingout.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BudgetActualModel.cs" />
@@ -190,7 +194,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ProjectedGoalModel.cs" />
-    <Compile Include="Models\TermContext.cs" />
+    <Compile Include="Models\YNTCUserContext.cs" />
     <Compile Include="Models\TermModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -283,6 +287,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509282240444_NewMigration02.resx">
       <DependentUpon>201509282240444_NewMigration02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510021722201_hahanotfreakingout.resx">
+      <DependentUpon>201510021722201_hahanotfreakingout.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

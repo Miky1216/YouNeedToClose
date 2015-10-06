@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace DataAccess.Models
+namespace YouNeedToClose.Models
 {
     public class BudgetActualModel
     {
