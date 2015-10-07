@@ -15,6 +15,6 @@ namespace DataAccess.Models
         public int Id { get; set; }
         [DisplayName("Income Projection")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
-        public double ExpectedAmountToEarn { get; set; }
+        public virtual double ExpectedAmountToEarn { get; set; }
     }
 }

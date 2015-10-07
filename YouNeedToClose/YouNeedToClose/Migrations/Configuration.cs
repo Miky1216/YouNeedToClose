@@ -1,46 +1,31 @@
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
-using System.Linq;
-using YouNeedToClose.Models;
-
 namespace YouNeedToClose.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<YouNeedToClose.Models.YNTCUserContext>
+    using System;
+    using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
+
+    internal sealed class Configuration : DbMigrationsConfiguration<YouNeedToClose.Models.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            //AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(YouNeedToClose.Models.YNTCUserContext context)
-         {
-             var startDate = new DateTime(2015, 9, 1);
-             TermModel term = new TermModel();
+        protected override void Seed(YouNeedToClose.Models.ApplicationDbContext context)
+        {
+            //  This method will be called after migrating to the latest version.
 
-             var category = new List<CategoryModel>
-                 {
-                     new CategoryModel
-                     {
-                         NameOfCategory = "Reliable Customer", Customers = new List<CustomerModel>
-                         {
-                             new CustomerModel{NameOfCompany="Company Name Example", BudgetActualCustomer = new BudgetActualModel
-                             {
-                                 Budget = 0, Actual = 0, Difference = 0
-                             }}
-                         }
-                     }
-                 };
-             term.StartDate = startDate;
-             term.Categories = category;
-
-             using (var db = new YNTCUserContext())
-             {
-                 db.Term.Add(term);
-                 db.SaveChanges();
-             }
-         }
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
+            //  to avoid creating duplicate seed data. E.g.
+            //
+            //    context.People.AddOrUpdate(
+            //      p => p.FullName,
+            //      new Person { FullName = "Andrew Peters" },
+            //      new Person { FullName = "Brice Lambson" },
+            //      new Person { FullName = "Rowan Miller" }
+            //    );
+            //
+        }
     }
 }

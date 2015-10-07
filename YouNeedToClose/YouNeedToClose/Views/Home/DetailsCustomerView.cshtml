@@ -1,30 +1,35 @@
-﻿@model YouNeedToClose.Models.DetailsCustomerModel
+﻿@model DataAccess.Models.DetailsCustomerModel
 
 @{
     ViewBag.Title = "DetailsCustomerView";
 }
 
 <style>
-table{
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-th, td{
+    table {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    th, td {
         padding: 5px;
         text-align: left;
     }
-tr{
-    border: 1px solid black;
-}
-#headers{
-    background-color:lightgrey;
+
+    tr {
+        border: 1px solid black;
     }
-td{
-    background-color:lightblue;
-}
-body{
-        background-color:#e9e9e9;
-        color:black;
+
+    #headers {
+        background-color: lightgrey;
+    }
+
+    td {
+        background-color: lightblue;
+    }
+
+    body {
+        background-color: #e9e9e9;
+        color: black;
     }
 </style>
 
@@ -39,7 +44,7 @@ body{
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
-        
+
         <div class="form-group">
             @Html.LabelFor(model => model.ContactName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -58,20 +63,27 @@ body{
             <input type="submit" value="Add To Table" class="btn btn-info" />
         </div>
         <br />
-        <div class ="row">
+        <div class="row">
             <div class="col-sm-12">
-                <table id="table" style="width:50%"> 
+                <table id="table" style="width:50%">
                     <tr id="headers">
                         <th>Contact Name</th>
                         <th>Motivations</th>
                     </tr>
                     <tr>
-                       
-                         <td>@Html.DisplayFor(model => Model.ContactName)</td>
+
+                        <td>@Html.DisplayFor(model => Model.ContactName)</td>
                         <td>@Html.DisplayFor(model => Model.CustomerMotivations)</td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
+}
+<div>
+    @Html.ActionLink("Back to Month Overview", "MonthOverview")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

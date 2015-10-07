@@ -1,4 +1,4 @@
-﻿
+﻿using DataAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -6,15 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using YouNeedToClose.Models;
-using Microsoft.AspNet.Identity;
+
 
 namespace YouNeedToClose.Controllers
 {
     public class HomeController : Controller
     {
-        public ApplicationSignInManager signInManager;
-        public ApplicationUserManager userManager;
         public ActionResult Index(int? id)
         {
             
@@ -25,9 +22,8 @@ namespace YouNeedToClose.Controllers
 
             return TermDisplay(id ?? 1);
         }
-
         [HttpGet]
-        public ActionResult ProjectedGoal(int? id)
+        public ActionResult ProjectedGoal(int? id, int? termID)
         {
             TempData["termId"] = id;
 
@@ -37,16 +33,18 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ProjectedGoal([Bind(Include = "Id, ExpectedAmountToEarn")] ProjectedGoalModel projectedGoalModel)
         {
-            var projectedGoalContext = new YouNeedToClose.Models.YNTCUserContext();
+            var projectedGoalContext = new TermContext();
             int? termId = (int?)TempData["termId"];
+            TermContext db = new TermContext();
             TermModel term = projectedGoalContext.Term.Find(termId);
+
             if (term == null)
             {
                 term = GetNewTerm();
-                projectedGoalContext.Term.Add(term);
-                projectedGoalContext.SaveChanges();
+                db.Term.Add(term);
+                db.SaveChanges();
             }
-            term.ProjectedGoal = projectedGoalModel;
+            term.ProjectedGoal = projectedGoalModel; 
 
             if (ModelState.IsValid)
             {
@@ -54,13 +52,13 @@ namespace YouNeedToClose.Controllers
                 projectedGoalContext.SaveChanges();
                 return RedirectToAction("MonthOverview");
             }
-            return View("ProjectedGoalView".ToList());
+            return View("ProjectedGoalView");
         }
-
         [HttpGet]
-        public ActionResult EditCustomer(int? id)
+        public ActionResult EditCustomer(int? id, int? termID)
         {
-            var editCustomerContext = new YouNeedToClose.Models.YNTCUserContext();
+            var editCustomerContext = new TermContext();
+            TempData["termId"] = termID;
 
             TermModel term = editCustomerContext.Term.Find(id);
             CustomerModel cm = editCustomerContext.CustomerModels.Find(id);
@@ -70,21 +68,24 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditCustomer([Bind(Include = "Id, NameOfCompany, BudgetActualCustomer")] CustomerModel customerModel)
         {
-            var editCustomerContext = new YouNeedToClose.Models.YNTCUserContext();
+            var editCustomerContext = new TermContext();
+            int? termId = (int?)TempData["termId"];
+
+            var currentTerm = editCustomerContext.Term.Find(termId);
 
             if (ModelState.IsValid)
             {
                 editCustomerContext.Entry(customerModel).State = EntityState.Modified;
                 editCustomerContext.SaveChanges();
-                return RedirectToAction("MonthOverview");
+                return RedirectToAction("MonthOverview", currentTerm);
             }
-            return View("EditCustomerView");
+            return View("SaleClosedView");
         }
-
         [HttpGet]
-        public ActionResult SaleClosed(int? id)
+        public ActionResult SaleClosed(int? id, int? termID)
         {
-            var saleClosedCustomerContext = new YouNeedToClose.Models.YNTCUserContext();
+            var saleClosedCustomerContext = new TermContext();
+            TempData["termId"] = termID;
 
             TermModel term = saleClosedCustomerContext.Term.Find(id);
             CustomerModel cm = saleClosedCustomerContext.CustomerModels.Find(id);
@@ -94,21 +95,24 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SaleClosed([Bind(Include = "Id, NameOfCompany, BudgetActualCustomer")] CustomerModel customerModel)
         {
-            var saleClosedCustomerContext = new YouNeedToClose.Models.YNTCUserContext();
+            var saleClosedCustomerContext = new TermContext();
+            int? termId = (int?)TempData["termId"];
+
+            var currentTerm = saleClosedCustomerContext.Term.Find(termId);
 
             if (ModelState.IsValid)
             {
                 saleClosedCustomerContext.Entry(customerModel).State = EntityState.Modified;
                 saleClosedCustomerContext.SaveChanges();
-                return RedirectToAction("MonthOverview");
+                return RedirectToAction("MonthOverview", currentTerm);
             }
             return View("SaleClosedView");
         }
-
         [HttpGet]
-        public ActionResult EditCategory(int? id)
+        public ActionResult EditCategory(int? id, int? termID)
         {
-            var editCategoryContext = new YouNeedToClose.Models.YNTCUserContext();
+            var editCategoryContext = new TermContext();
+            TempData["termId"] = termID;
             
             TermModel term = editCategoryContext.Term.Find(id);
             CategoryModel cateModel = editCategoryContext.CategoryModels.Find(id);
@@ -118,45 +122,50 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditCategory([Bind(Include="Id, NameOfCategory")] CategoryModel categoryModel)
         {
-            var editCategoryContext = new YouNeedToClose.Models.YNTCUserContext();
+            var editCategoryContext = new TermContext();
+            int? termId = (int?)TempData["termId"];
+
+            var currentTerm = editCategoryContext.Term.Find(termId);
 
             if (ModelState.IsValid)
             {
                 editCategoryContext.Entry(categoryModel).State = EntityState.Modified;
                 editCategoryContext.SaveChanges();
-                return RedirectToAction("MonthOverview");
+                return RedirectToAction("MonthOverview", currentTerm);
             }
             return View("EditCategoryView");
         }
-
         [HttpGet]
         public ActionResult CreateNewCategory(int? id)
         {
-            TempData["termId"] = id;
+            var createCategoryContext = new TermContext();
 
-            return View("CreateNewCategoryView");
+            TempData["termId"] = id;
+            CategoryModel cm = createCategoryContext.CategoryModels.Find(id);
+            return View("CreateNewCategoryView", cm);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateNewCategory(CategoryModel categoryModel)
         {
-            var createCategoryContext = new YouNeedToClose.Models.YNTCUserContext();
+            var createCategoryContext = new TermContext();
             int? termId = (int?)TempData["termId"];
 
-            TermModel term = createCategoryContext.Term.Find(termId);
-            term.Categories.Add(categoryModel);
+            var currentTerm = createCategoryContext.Term.Find(termId);
+
+            //TermModel term = createCategoryContext.Term.Find(termId);
+            currentTerm.Categories.Add(categoryModel);
 
             if (ModelState.IsValid)
             {
                 createCategoryContext.Entry(categoryModel).State = EntityState.Added;
                 createCategoryContext.SaveChanges();
-                return RedirectToAction("MonthOverview");
+                return RedirectToAction("MonthOverview", currentTerm);
             }
-            return View("CreateNewCategoryView");
+            return View("CreateNewCategoryView", categoryModel);
         }
-
         [HttpGet]
-        public ActionResult CreateNewCustomer(int? id)
+        public ActionResult CreateNewCustomer(int? id, int? termID)
         {
             TempData["categoryModel"] = id;
 
@@ -166,8 +175,10 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateNewCustomer(CustomerModel customerModel)
         {
-            var createCustomerContext = new YouNeedToClose.Models.YNTCUserContext();
+            var createCustomerContext = new TermContext();
             int? categoryModel = (int?)TempData["categoryModel"];
+
+            var currentTerm = createCustomerContext.Term.Find(categoryModel);
 
             CategoryModel modelOfCategory = createCustomerContext.CategoryModels.Find(categoryModel);
             modelOfCategory.Customers.Add(customerModel);
@@ -176,15 +187,15 @@ namespace YouNeedToClose.Controllers
             {
                 createCustomerContext.Entry(customerModel).State = EntityState.Added;
                 createCustomerContext.SaveChanges();
-                return RedirectToAction("MonthOverview");
+                return RedirectToAction("MonthOverview", currentTerm);
             }
             return View("CreateNewCustomerView");
         }
-
         [HttpGet]
-        public ActionResult DeleteCustomer(int? id)
+        public ActionResult DeleteCustomer(int? id, int ? termID)
         {
-            var deleteCustomerContext = new YouNeedToClose.Models.YNTCUserContext();
+            var deleteCustomerContext = new TermContext();
+            TempData["termId"] = termID;
 
             TermModel term = deleteCustomerContext.Term.Find(id);
             CustomerModel cm = deleteCustomerContext.CustomerModels.Find(id);
@@ -194,24 +205,27 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteCustomer([Bind(Include = "Id, NameOfCompany, BudgetActualCustomer")] CustomerModel customerModel)
         {
-            var deleteCustomerContext = new YouNeedToClose.Models.YNTCUserContext();
+            var deleteCustomerContext = new TermContext();
+            int? termId = (int?)TempData["termId"];
+
+            var currentTerm = deleteCustomerContext.Term.Find(termId);
 
             if (ModelState.IsValid)
             {
                 deleteCustomerContext.Entry(customerModel).State = EntityState.Deleted;
                 deleteCustomerContext.CustomerModels.Remove(customerModel);
                 deleteCustomerContext.SaveChanges();
-                return RedirectToAction("MonthOverview");
+                return RedirectToAction("MonthOverview", currentTerm);
             }
             return View("DeleteCustomerView");
         }
-
         [HttpGet]
-        public ActionResult DeleteCategory(int? id)
+        public ActionResult DeleteCategory(int? id, int? termID)
         {
-            var deleteCategoryContext = new YouNeedToClose.Models.YNTCUserContext();
+            var deleteCategoryContext = new TermContext();
+            TempData["termId"] = termID;
 
-            TermModel term = deleteCategoryContext.Term.Find(id);
+            //TermModel term = deleteCategoryContext.Term.Find(id);
             CategoryModel cm = deleteCategoryContext.CategoryModels.Find(id);
             return View("DeleteCategoryView", cm);
         }
@@ -219,14 +233,17 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteCategory([Bind(Include = "Id, NameOfCategory")] CategoryModel categoryModel)
         {
-            var deleteCustomerContext = new YouNeedToClose.Models.YNTCUserContext();
+            var deleteCategoryContext = new TermContext();
+            int? termId = (int?)TempData["termId"];
+
+            var currentTerm = deleteCategoryContext.Term.Find(termId);
 
             if (ModelState.IsValid)
             {
-                deleteCustomerContext.Entry(categoryModel).State = EntityState.Deleted;
-                deleteCustomerContext.CategoryModels.Remove(categoryModel);
-                deleteCustomerContext.SaveChanges();
-                return RedirectToAction("MonthOverview");
+                deleteCategoryContext.Entry(categoryModel).State = EntityState.Deleted;
+                deleteCategoryContext.CategoryModels.Remove(categoryModel);
+                deleteCategoryContext.SaveChanges();
+                return RedirectToAction("MonthOverview", currentTerm);
             }
             return View("DeleteCategoryView");
         }
@@ -234,7 +251,7 @@ namespace YouNeedToClose.Controllers
         [HttpGet]
         public ActionResult DetailsCustomer(int? id, int? termID)
         {
-            var createDetailsContext = new YNTCUserContext();
+            var createDetailsContext = new TermContext();
 
             TempData["termId"] = termID;
             DetailsCustomerModel dm = createDetailsContext.CustomerModels.Find(id).DetailsOfCustomer;
@@ -244,13 +261,15 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DetailsCustomer([Bind(Include = "Id, ContactName, CustomerMotivations")]CustomerModel customerModel, DetailsCustomerModel detailsModel)
         {
-            var createDetailsContext = new YNTCUserContext();
+            var createDetailsContext = new TermContext();
             int? termId = (int?)TempData["termId"];
+
+            //var currentTerm = createDetailsContext.Term.Find(termId);
 
             //TermModel term = createDetailsContext.Term.Find(termId);
             var detailsOnCustomerId = createDetailsContext.CustomerModels.Find(customerModel.Id);
             detailsOnCustomerId.DetailsOfCustomer = detailsModel;
-
+             
 
             if (ModelState.IsValid)
             {
@@ -260,6 +279,7 @@ namespace YouNeedToClose.Controllers
             }
             return View("DetailsCustomerView", detailsModel);
         }
+
         public ActionResult TermDisplay(int? id)
         {
             
@@ -269,19 +289,18 @@ namespace YouNeedToClose.Controllers
                 //determine which term is the current date
                 //If the date does not exist, create it new and create any up until that point
 
-                
-
             }
             else
             {
                 //open term from database by id
-                using (var db = new YouNeedToClose.Models.YNTCUserContext())
+                using (var db = new TermContext())
                 {
-                    
-                    if(term.NextId==null)
+                    term = db.Term.Find(id);
+                    if(term==null)
                     {
                         term = GetNewTerm();
-                        
+                        db.Term.Add(term);
+                        db.SaveChanges();
                     }
                     term.BudgetActual = new BudgetActualModel
                     {
@@ -310,31 +329,32 @@ namespace YouNeedToClose.Controllers
                         term.BudgetActual.Actual += termCategory.BudgetActualCategory.Actual;
                         term.BudgetActual.Difference += termCategory.BudgetActualCategory.Difference;
                     }
+                    
                     //if term does not exist
-                    //copy categories and budgetted from previous term from database
-                    term.ProjectedGoal.ExpectedAmountToEarn = (term.ProjectedGoal.ExpectedAmountToEarn + term.ProjectedGoal.ExpectedAmountToEarn) / 2;
+                    //copy categories and budgeted from previous term from database
+                    
+                   term.ProjectedGoal.ExpectedAmountToEarn = (term.ProjectedGoal.ExpectedAmountToEarn + term.ProjectedGoal.ExpectedAmountToEarn) / 2;
                 }
             }
            return View("TermView", term);
         }
-        //public YouNeedToClose.Models.YNTCUserContext YNTCUserContext { get; set; }
-        //public UserManager<ApplicationUser> UserManager { get; set; }
-        
+
         private TermModel GetNewTerm()
         {
-            YouNeedToClose.Models.YNTCUserContext db = new YouNeedToClose.Models.YNTCUserContext();
-            var user = db.Users.Find(User.Identity.GetUserId());
-            ((ApplicationUser)user).Terms.Add(new TermModel());
             TermModel term = new TermModel();
-           
-            TermModel latestTerm = db.Term.OrderByDescending(e => e.Id).FirstOrDefault();
-            term.PrevId = latestTerm.Id;
-            term.NextId = null;
-            db.SaveChanges();
+            using (var db = new TermContext())
+            {
+                TermModel latestTerm = db.Term.OrderByDescending(e => e.Id).FirstOrDefault();
+               
+                term.PrevId = latestTerm.Id;
+                //term.NextId = term.Id;
+                db.SaveChanges();   
+                term.StartDate = latestTerm.StartDate.AddMonths(1);
+                term.ProjectedGoal = latestTerm.ProjectedGoal;
+                term.Categories = new List<CategoryModel>();
 
-            term.Categories = new List<CategoryModel>();
                 foreach(CategoryModel catm in latestTerm.Categories)//perform deep copy
-                { 
+                {
                     CategoryModel new_catm = new CategoryModel { NameOfCategory = catm.NameOfCategory,
                     Customers = new List<CustomerModel>()
                     };
@@ -344,72 +364,14 @@ namespace YouNeedToClose.Controllers
                         CustomerModel new_custm = new CustomerModel
                         {
                             NameOfCompany = custm.NameOfCompany,
-                            BudgetActualCustomer = new BudgetActualModel { Budget = 0, Actual = 0, Difference = 0 },
+                            BudgetActualCustomer = new BudgetActualModel { Budget = 0, Actual = 0, Difference = 0 }
                         };
                         new_catm.Customers.Add(new_custm);
                     }
                     term.Categories.Add(new_catm);
                 }
-                return term;
-
-            /*var joinPrevNext = from m in db.Term
-                               where m.Id == term.PrevId
-                               select m.Id;
-            */
-
-
-            #region doesn't fucking work
-            //    //var user = c.Users.Find(User.Identity.GetUserId());
-        //    //((ApplicationUser)user).Terms.Add(new TermModel());
-
-        //    //var applicationUser = user.Terms.OrderByDescending(a => a.Id);                    
-        //    YouNeedToClose.Models.YNTCUserContext c = new YouNeedToClose.Models.YNTCUserContext();
-        //    TermModel term = new TermModel();
-        //    //TermModel latestTerm = db.Term.OrderByDescending(e => e.Id).FirstOrDefault(); ---What it was before context change
-        //    //TermModel latestTerm = user.Terms.OrderByDescending(e => e.Id).FirstOrDefault(); ---What it was changed to
-        //    TermModel latestTerm = c.Term.OrderByDescending(e => e.Id).FirstOrDefault();
-
-        //    //user.Terms.Add(term);
-        //    //c.SaveChanges();
-        //    term.PrevId = latestTerm.Id;
-        //    term.NextId = term.Id;
-        //    term.StartDate = latestTerm.StartDate.AddMonths(1);
-        //    //term.StartDate = DateTime.Now;
-        //    term.ProjectedGoal = latestTerm.ProjectedGoal;
-                
-        //    /*var category = new List<CategoryModel>
-        //    {
-        //        new CategoryModel
-        //        {
-        //            NameOfCategory = "Reliable Customer", Customers = new List<CustomerModel>
-        //            {
-        //                new CustomerModel{NameOfCompany="Company Name Example", BudgetActualCustomer = new BudgetActualModel
-        //                {
-        //                    Budget = 0, Actual = 0, Difference = 0
-        //                }}
-        //            }
-        //        }
-        //    };*/
-        //    term.Categories = new List<CategoryModel>();
-        //    foreach(CategoryModel catm in latestTerm.Categories)//perform deep copy
-        //    { 
-        //        CategoryModel new_catm = new CategoryModel { NameOfCategory = catm.NameOfCategory,
-        //        Customers = new List<CustomerModel>()
-        //        };
-
-        //        foreach(CustomerModel custm in catm.Customers)
-        //        {
-        //            CustomerModel new_custm = new CustomerModel
-        //            {
-        //                NameOfCompany = custm.NameOfCompany,
-        //                BudgetActualCustomer = new BudgetActualModel { Budget = 0, Actual = 0, Difference = 0 },
-        //            };
-        //            new_catm.Customers.Add(new_custm);
-        //        }
-        //        term.Categories.Add(new_catm);
-        //    }
-            //    return term;
-            #endregion
+            }
+            return term;
         }
     }
 }

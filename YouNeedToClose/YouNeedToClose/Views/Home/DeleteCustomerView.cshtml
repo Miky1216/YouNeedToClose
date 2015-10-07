@@ -1,9 +1,8 @@
-﻿@model YouNeedToClose.Models.CustomerModel
+﻿@model DataAccess.Models.CustomerModel
 
 @{
     ViewBag.Title = "DeleteCustomerView";
 }
-
 <style>
     body {
         background-color: #e9e9e9;
@@ -12,7 +11,8 @@
 </style>
 
 <h2>Delete Customer</h2>
-<h3>Are you sure you want to delete this customer?</h3>
+
+<h3>Are you sure you want to delete this?</h3>
 
 @using (Html.BeginForm())
 {

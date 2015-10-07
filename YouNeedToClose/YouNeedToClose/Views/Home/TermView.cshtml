@@ -1,4 +1,4 @@
-﻿@model YouNeedToClose.Models.TermModel
+﻿@model DataAccess.Models.TermModel
 
 @{
     //Layout = null;
@@ -59,7 +59,6 @@
             <p>
                 <br />
                     @Html.ActionLink("New Category", "CreateNewCategory", new { id = Model.Id }, new { @class = "btn btn-info", })
-                    @Html.ActionLink("Reports", "", new { id = Model.Id }, new { @class = "btn btn-info", })
             </p>
         </div>
         <div id="expectedamount" class="col-md-8">
@@ -115,9 +114,9 @@
                                 @Html.DisplayFor(modelItem => item.BudgetActualCategory.Difference)
                             </td>
                             <td id ="categoryOptions">
-                                @Html.ActionLink("Create New Customer", "CreateNewCustomer", new { id = item.Id }, new { @class = "btn btn-info" }) |
-                                @Html.ActionLink("Edit", "EditCategory", new { id = item.Id }, new { @class = "btn btn-info" }) |
-                                @Html.ActionLink("Delete", "DeleteCategory", new { id = item.Id }, new { @class = "btn btn-info" })
+                                @Html.ActionLink("Create New Customer", "CreateNewCustomer", new { id = item.Id, termID = Model.Id }, new { @class = "btn btn-info" }) |
+                                @Html.ActionLink("Edit", "EditCategory", new { id = item.Id, termID = Model.Id }, new { @class = "btn btn-info" }) |
+                                @Html.ActionLink("Delete", "DeleteCategory", new { id = item.Id, termID = Model.Id }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                         foreach (var customer in item.Customers)
@@ -136,10 +135,10 @@
                                     @Html.DisplayFor(modelItem => customer.BudgetActualCustomer.Difference)
                                 </td>
                                 <td id="options">
-                                    @Html.ActionLink("Sale Closed", "SaleClosed", new { id = customer.Id }) |
-                                    @Html.ActionLink("Details", "DetailsCustomer", new { id = customer.Id, termID=Model.Id }) |
-                                    @Html.ActionLink("Edit", "EditCustomer", new { id = customer.Id }) |
-                                    @Html.ActionLink("Delete", "DeleteCustomer", new { id = customer.Id })
+                                    @Html.ActionLink("Sale Closed", "SaleClosed", new { id = customer.Id, termID = Model.Id }) |
+                                    @Html.ActionLink("Details", "DetailsCustomer", new { id = customer.Id, termID = Model.Id }) |
+                                    @Html.ActionLink("Edit", "EditCustomer", new { id = customer.Id, termID = Model.Id }) |
+                                    @Html.ActionLink("Delete", "DeleteCustomer", new { id = customer.Id, termID = Model.Id })
                                 </td>
                             </tr>
                         }
