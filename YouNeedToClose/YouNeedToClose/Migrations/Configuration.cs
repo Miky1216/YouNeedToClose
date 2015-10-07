@@ -12,7 +12,7 @@ namespace YouNeedToClose.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            AutomaticMigrationDataLossAllowed = true;
+            //AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(YouNeedToClose.Models.YNTCUserContext context)

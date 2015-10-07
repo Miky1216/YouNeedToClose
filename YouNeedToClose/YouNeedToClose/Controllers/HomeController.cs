@@ -232,29 +232,31 @@ namespace YouNeedToClose.Controllers
         }
 
         [HttpGet]
-        public ActionResult DetailsCustomer(int? id, int ? termID)
+        public ActionResult DetailsCustomer(int? id, int? termID)
         {
-            var createDetailsContext = new YouNeedToClose.Models.YNTCUserContext();
+            var createDetailsContext = new YNTCUserContext();
 
             TempData["termId"] = termID;
-            DetailsCustomerModel dm = createDetailsContext.DetailsCustomer.Find(id);
+            DetailsCustomerModel dm = createDetailsContext.CustomerModels.Find(id).DetailsOfCustomer;
             return View("DetailsCustomerView", dm);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DetailsCustomer([Bind(Include = "Id, ContactName, CustomerMotivations")]DetailsCustomerModel detailsModel)
+        public ActionResult DetailsCustomer([Bind(Include = "Id, ContactName, CustomerMotivations")]CustomerModel customerModel, DetailsCustomerModel detailsModel)
         {
-            var createDetailsContext = new YouNeedToClose.Models.YNTCUserContext();
+            var createDetailsContext = new YNTCUserContext();
             int? termId = (int?)TempData["termId"];
 
-            TermModel term = createDetailsContext.Term.Find(termId);
-            term.DetailsCustomer = detailsModel;
+            //TermModel term = createDetailsContext.Term.Find(termId);
+            var detailsOnCustomerId = createDetailsContext.CustomerModels.Find(customerModel.Id);
+            detailsOnCustomerId.DetailsOfCustomer = detailsModel;
+
 
             if (ModelState.IsValid)
             {
                 createDetailsContext.Entry(detailsModel).State = EntityState.Added;
                 createDetailsContext.SaveChanges();
-           //   RedirectToAction("DetailsCustomerView", detailsModel);
+                RedirectToAction("MonthOverview", detailsModel);
             }
             return View("DetailsCustomerView", detailsModel);
         }
