@@ -60,7 +60,6 @@ namespace YouNeedToClose.Controllers
             var editCustomerContext = new YNTCTermContext();
             TempData["termId"] = termID;
 
-            TermModel term = editCustomerContext.Term.Find(id);
             CustomerModel cm = editCustomerContext.CustomerModels.Find(id);
             return View("EditCustomerView", cm);
         }
@@ -87,7 +86,6 @@ namespace YouNeedToClose.Controllers
             var saleClosedCustomerContext = new YNTCTermContext();
             TempData["termId"] = termID;
 
-            TermModel term = saleClosedCustomerContext.Term.Find(id);
             CustomerModel cm = saleClosedCustomerContext.CustomerModels.Find(id);
             return View("SaleClosedView", cm);
         }
@@ -114,7 +112,6 @@ namespace YouNeedToClose.Controllers
             var editCategoryContext = new YNTCTermContext();
             TempData["termId"] = termID;
             
-            TermModel term = editCategoryContext.Term.Find(id);
             CategoryModel cateModel = editCategoryContext.CategoryModels.Find(id);
             return View("EditCategoryView", cateModel);
         }
@@ -152,8 +149,6 @@ namespace YouNeedToClose.Controllers
             int? termId = (int?)TempData["termId"];
 
             var currentTerm = createCategoryContext.Term.Find(termId);
-
-            //TermModel term = createCategoryContext.Term.Find(termId);
             currentTerm.Categories.Add(categoryModel);
 
             if (ModelState.IsValid)
@@ -167,9 +162,13 @@ namespace YouNeedToClose.Controllers
         [HttpGet]
         public ActionResult CreateNewCustomer(int? id, int? termID)
         {
+            var createCustomerContext = new YNTCTermContext();
+            
             TempData["categoryModel"] = id;
+            TempData["TermId"] = termID;
 
-            return View("CreateNewCustomerView");
+            CustomerModel cm = createCustomerContext.CustomerModels.Find(id);
+            return View("CreateNewCustomerView", cm);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -177,8 +176,9 @@ namespace YouNeedToClose.Controllers
         {
             var createCustomerContext = new YNTCTermContext();
             int? categoryModel = (int?)TempData["categoryModel"];
+            int? termId = (int?)TempData["termId"];
 
-            var currentTerm = createCustomerContext.Term.Find(categoryModel);
+            var currentTerm = createCustomerContext.Term.Find(termId);
 
             CategoryModel modelOfCategory = createCustomerContext.CategoryModels.Find(categoryModel);
             modelOfCategory.Customers.Add(customerModel);
@@ -197,7 +197,6 @@ namespace YouNeedToClose.Controllers
             var deleteCustomerContext = new YNTCTermContext();
             TempData["termId"] = termID;
 
-            TermModel term = deleteCustomerContext.Term.Find(id);
             CustomerModel cm = deleteCustomerContext.CustomerModels.Find(id);
             return View("DeleteCustomerView", cm);
         }
@@ -225,7 +224,6 @@ namespace YouNeedToClose.Controllers
             var deleteCategoryContext = new YNTCTermContext();
             TempData["termId"] = termID;
 
-            //TermModel term = deleteCategoryContext.Term.Find(id);
             CategoryModel cm = deleteCategoryContext.CategoryModels.Find(id);
             return View("DeleteCategoryView", cm);
         }
@@ -252,8 +250,8 @@ namespace YouNeedToClose.Controllers
         public ActionResult DetailsCustomer(int? id, int? termID)
         {
             var createDetailsContext = new YNTCTermContext();
-
             TempData["termId"] = termID;
+            
             DetailsCustomerModel dm = createDetailsContext.CustomerModels.Find(id).DetailsOfCustomer;
             return View("DetailsCustomerView", dm);
         }
@@ -266,7 +264,6 @@ namespace YouNeedToClose.Controllers
 
             //var currentTerm = createDetailsContext.Term.Find(termId);
 
-            //TermModel term = createDetailsContext.Term.Find(termId);
             var detailsOnCustomerId = createDetailsContext.CustomerModels.Find(customerModel.Id);
             detailsOnCustomerId.DetailsOfCustomer = detailsModel;
              
