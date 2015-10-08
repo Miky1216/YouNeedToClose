@@ -98,6 +98,10 @@
     <Compile Include="Migrations\201510072217533_NewDatabase.Designer.cs">
       <DependentUpon>201510072217533_NewDatabase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510081440420_MigratedToNewDatabase.cs" />
+    <Compile Include="Migrations\201510081440420_MigratedToNewDatabase.Designer.cs">
+      <DependentUpon>201510081440420_MigratedToNewDatabase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BudgetActualModel.cs" />
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Class1.cs" />
@@ -131,6 +135,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510072217533_NewDatabase.resx">
       <DependentUpon>201510072217533_NewDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510081440420_MigratedToNewDatabase.resx">
+      <DependentUpon>201510081440420_MigratedToNewDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
