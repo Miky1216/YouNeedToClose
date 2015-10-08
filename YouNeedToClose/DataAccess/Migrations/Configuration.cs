@@ -7,14 +7,14 @@ namespace DataAccess.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<DataAccess.Models.TermContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DataAccess.Models.YNTCTermContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(DataAccess.Models.TermContext context)
+        protected override void Seed(DataAccess.Models.YNTCTermContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -64,7 +64,7 @@ namespace DataAccess.Migrations
 
   
             
-            using (var db = new TermContext())
+            using (var db = new YNTCTermContext())
             {
                 db.Term.Add(term);
                 db.SaveChanges();

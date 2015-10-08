@@ -6,7 +6,7 @@ using System.Web;
 
 namespace DataAccess.Models
 {
-    public class TermContext : DbContext
+    public class YNTCTermContext : DbContext
     {
         public DbSet<TermModel> Term { get; set; }
         public DbSet<DetailsCustomerModel> DetailsCustomer { get; set; }

@@ -33,9 +33,9 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ProjectedGoal([Bind(Include = "Id, ExpectedAmountToEarn")] ProjectedGoalModel projectedGoalModel)
         {
-            var projectedGoalContext = new TermContext();
+            var projectedGoalContext = new YNTCTermContext();
             int? termId = (int?)TempData["termId"];
-            TermContext db = new TermContext();
+            YNTCTermContext db = new YNTCTermContext();
             TermModel term = projectedGoalContext.Term.Find(termId);
 
             if (term == null)
@@ -57,7 +57,7 @@ namespace YouNeedToClose.Controllers
         [HttpGet]
         public ActionResult EditCustomer(int? id, int? termID)
         {
-            var editCustomerContext = new TermContext();
+            var editCustomerContext = new YNTCTermContext();
             TempData["termId"] = termID;
 
             TermModel term = editCustomerContext.Term.Find(id);
@@ -68,7 +68,7 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditCustomer([Bind(Include = "Id, NameOfCompany, BudgetActualCustomer")] CustomerModel customerModel)
         {
-            var editCustomerContext = new TermContext();
+            var editCustomerContext = new YNTCTermContext();
             int? termId = (int?)TempData["termId"];
 
             var currentTerm = editCustomerContext.Term.Find(termId);
@@ -84,7 +84,7 @@ namespace YouNeedToClose.Controllers
         [HttpGet]
         public ActionResult SaleClosed(int? id, int? termID)
         {
-            var saleClosedCustomerContext = new TermContext();
+            var saleClosedCustomerContext = new YNTCTermContext();
             TempData["termId"] = termID;
 
             TermModel term = saleClosedCustomerContext.Term.Find(id);
@@ -95,7 +95,7 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SaleClosed([Bind(Include = "Id, NameOfCompany, BudgetActualCustomer")] CustomerModel customerModel)
         {
-            var saleClosedCustomerContext = new TermContext();
+            var saleClosedCustomerContext = new YNTCTermContext();
             int? termId = (int?)TempData["termId"];
 
             var currentTerm = saleClosedCustomerContext.Term.Find(termId);
@@ -111,7 +111,7 @@ namespace YouNeedToClose.Controllers
         [HttpGet]
         public ActionResult EditCategory(int? id, int? termID)
         {
-            var editCategoryContext = new TermContext();
+            var editCategoryContext = new YNTCTermContext();
             TempData["termId"] = termID;
             
             TermModel term = editCategoryContext.Term.Find(id);
@@ -122,7 +122,7 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditCategory([Bind(Include="Id, NameOfCategory")] CategoryModel categoryModel)
         {
-            var editCategoryContext = new TermContext();
+            var editCategoryContext = new YNTCTermContext();
             int? termId = (int?)TempData["termId"];
 
             var currentTerm = editCategoryContext.Term.Find(termId);
@@ -138,7 +138,7 @@ namespace YouNeedToClose.Controllers
         [HttpGet]
         public ActionResult CreateNewCategory(int? id)
         {
-            var createCategoryContext = new TermContext();
+            var createCategoryContext = new YNTCTermContext();
 
             TempData["termId"] = id;
             CategoryModel cm = createCategoryContext.CategoryModels.Find(id);
@@ -148,7 +148,7 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateNewCategory(CategoryModel categoryModel)
         {
-            var createCategoryContext = new TermContext();
+            var createCategoryContext = new YNTCTermContext();
             int? termId = (int?)TempData["termId"];
 
             var currentTerm = createCategoryContext.Term.Find(termId);
@@ -175,7 +175,7 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateNewCustomer(CustomerModel customerModel)
         {
-            var createCustomerContext = new TermContext();
+            var createCustomerContext = new YNTCTermContext();
             int? categoryModel = (int?)TempData["categoryModel"];
 
             var currentTerm = createCustomerContext.Term.Find(categoryModel);
@@ -194,7 +194,7 @@ namespace YouNeedToClose.Controllers
         [HttpGet]
         public ActionResult DeleteCustomer(int? id, int ? termID)
         {
-            var deleteCustomerContext = new TermContext();
+            var deleteCustomerContext = new YNTCTermContext();
             TempData["termId"] = termID;
 
             TermModel term = deleteCustomerContext.Term.Find(id);
@@ -205,7 +205,7 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteCustomer([Bind(Include = "Id, NameOfCompany, BudgetActualCustomer")] CustomerModel customerModel)
         {
-            var deleteCustomerContext = new TermContext();
+            var deleteCustomerContext = new YNTCTermContext();
             int? termId = (int?)TempData["termId"];
 
             var currentTerm = deleteCustomerContext.Term.Find(termId);
@@ -222,7 +222,7 @@ namespace YouNeedToClose.Controllers
         [HttpGet]
         public ActionResult DeleteCategory(int? id, int? termID)
         {
-            var deleteCategoryContext = new TermContext();
+            var deleteCategoryContext = new YNTCTermContext();
             TempData["termId"] = termID;
 
             //TermModel term = deleteCategoryContext.Term.Find(id);
@@ -233,7 +233,7 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteCategory([Bind(Include = "Id, NameOfCategory")] CategoryModel categoryModel)
         {
-            var deleteCategoryContext = new TermContext();
+            var deleteCategoryContext = new YNTCTermContext();
             int? termId = (int?)TempData["termId"];
 
             var currentTerm = deleteCategoryContext.Term.Find(termId);
@@ -251,7 +251,7 @@ namespace YouNeedToClose.Controllers
         [HttpGet]
         public ActionResult DetailsCustomer(int? id, int? termID)
         {
-            var createDetailsContext = new TermContext();
+            var createDetailsContext = new YNTCTermContext();
 
             TempData["termId"] = termID;
             DetailsCustomerModel dm = createDetailsContext.CustomerModels.Find(id).DetailsOfCustomer;
@@ -261,7 +261,7 @@ namespace YouNeedToClose.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DetailsCustomer([Bind(Include = "Id, ContactName, CustomerMotivations")]CustomerModel customerModel, DetailsCustomerModel detailsModel)
         {
-            var createDetailsContext = new TermContext();
+            var createDetailsContext = new YNTCTermContext();
             int? termId = (int?)TempData["termId"];
 
             //var currentTerm = createDetailsContext.Term.Find(termId);
@@ -293,7 +293,7 @@ namespace YouNeedToClose.Controllers
             else
             {
                 //open term from database by id
-                using (var db = new TermContext())
+                using (var db = new YNTCTermContext())
                 {
                     term = db.Term.Find(id);
                     if(term==null)
@@ -342,7 +342,7 @@ namespace YouNeedToClose.Controllers
         private TermModel GetNewTerm()
         {
             TermModel term = new TermModel();
-            using (var db = new TermContext())
+            using (var db = new YNTCTermContext())
             {
                 TermModel latestTerm = db.Term.OrderByDescending(e => e.Id).FirstOrDefault();
                
